@@ -1,4 +1,7 @@
+package web_driver;
+
 import org.openqa.selenium.WebDriver;
+import settings.Config;
 
 public class GetDriver {
 
@@ -8,8 +11,6 @@ public class GetDriver {
     public static WebDriver getWebDriver(Config config) {
         if (webDriver.get() == null)
             webDriver.set(GetDriverManager.getDriver(config));
-        //webDriver.set(getDriver(config)); //переделать через enum в chrome driver/firefox driver... (в презентации)
         return webDriver.get();
-        //return webDriver.get();
     }
 }

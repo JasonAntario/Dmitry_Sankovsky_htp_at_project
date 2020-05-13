@@ -1,13 +1,18 @@
+package steps;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import settings.DriverSettings;
+import settings.ScreenMode;
 
 public class BaseSteps {
 
     static WebElement element;
 
-    public static WebElement findElement(WebDriver driver, String xPath) {
-        return driver.findElement(By.xpath(xPath));
+    public static void followTheLinkSetWindowMode(WebDriver driver, String url, ScreenMode screenMode){
+        DriverSettings.setScreenMode(screenMode, driver);
+        driver.get(url);
     }
 
     public static void findElementClick(WebDriver driver, String xPath) {
@@ -43,6 +48,11 @@ public class BaseSteps {
     }
     public static String findElementGetText(WebDriver driver, String xPath){
         return driver.findElement(By.xpath(xPath)).getText();
+    }
+
+    public static void destroyDriver(WebDriver driver){
+        driver.close();
+        driver.quit();
     }
 
 }

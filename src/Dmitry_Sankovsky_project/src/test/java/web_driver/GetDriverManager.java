@@ -1,11 +1,12 @@
+package web_driver;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import settings.Config;
 
 public class GetDriverManager {
-
-    //private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
     public static WebDriver getDriver(Config config) {
 

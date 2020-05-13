@@ -1,20 +1,17 @@
+package tests.booking;
+
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import settings.Config;
+import settings.ScreenMode;
+import steps.BaseSteps;
+import steps.booking.SpecialSteps;
+import web_driver.GetDriver;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Test1 {
-    private static String setDays(int daysAmount) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, daysAmount);
-        Date newDate = calendar.getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(newDate);
-    }
 
     public static void main(String[] args) throws InterruptedException {
         int daysAmount = 7;
@@ -23,12 +20,12 @@ public class Test1 {
         int roomNeed = 2;
         WebElement element;
         WebDriver driver = GetDriver.getWebDriver(Config.CHROME);
-        driver.get("https://www.booking.com/");
+        BaseSteps.followTheLinkSetWindowMode(driver,"https://www.booking.com/", ScreenMode.MAXIMIZE);
 
         BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Paris");  //set City: Paris
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"xp__input-group xp__date-time\")]");
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", setDays(daysShift)));
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", setDays(daysAmount + daysShift)));  //set days
+        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysShift)));
+        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysAmount + daysShift)));  //set days
         BaseSteps.findElementClick(driver, "//*[@id=\"xp__guests__toggle\"]");
 
         int adultAmount = Integer.parseInt(BaseSteps.findElementGetAttribute(driver, "//*[contains(@class,\"field-adult\")]//input", "value"));
@@ -49,5 +46,6 @@ public class Test1 {
 
         System.out.println("Price: "+maxPrice+"+; Min one Night Price: "+firstOneDayPrice);
         Assert.assertTrue(firstOneDayPrice >= Integer.parseInt(maxPrice));
+        BaseSteps.destroyDriver(driver);
     }
 }
