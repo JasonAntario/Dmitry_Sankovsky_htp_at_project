@@ -1,6 +1,9 @@
 package tests.booking;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -13,17 +16,22 @@ import web_driver.GetDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class Test2 {
+public class Booking2Test {
+    String date = null;
+    int daysAmount = 5;
+    int daysShift = 10;
 
-    public static void main(String[] args) throws InterruptedException {
-        String date = null;
-        int daysAmount = 5;
-        int daysShift = 10;
+    WebElement element;
+    WebDriver driver;
 
-        WebElement element;
-        WebDriver driver = GetDriver.getWebDriver(Config.CHROME);
+    @Before
+    public void preCondition() {
+        driver = GetDriver.getWebDriver(Config.CHROME);
         driver.get("https://www.booking.com/");
+    }
 
+    @Test
+    public void booking2Test() throws InterruptedException {
         BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Moscow");  //set City: Moscow
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"xp__input-group xp__date-time\")]");
         BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysShift)));
@@ -50,6 +58,10 @@ public class Test2 {
         int firstOneDayPrice = Integer.parseInt(firstPrice) / (daysAmount - daysShift);
         System.out.println("Price: up to " + maxPrice + "; Min one Night Price: " + firstOneDayPrice);
         Assert.assertTrue(firstOneDayPrice <= Integer.parseInt(maxPrice));
-       // steps.BaseSteps.destroyDriver(driver);
+    }
+
+    @After
+    public void postCondition() {
+        BaseSteps.destroyDriver(driver);
     }
 }
