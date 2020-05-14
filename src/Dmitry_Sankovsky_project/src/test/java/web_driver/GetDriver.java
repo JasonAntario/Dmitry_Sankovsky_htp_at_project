@@ -5,7 +5,6 @@ import settings.Config;
 
 public class GetDriver {
 
-   // private static WebDriver webDriver;
     private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
     public static WebDriver getWebDriver(Config config) {

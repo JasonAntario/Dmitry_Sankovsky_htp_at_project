@@ -6,8 +6,19 @@ import org.openqa.selenium.WebElement;
 import settings.DriverSettings;
 import settings.ScreenMode;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class BaseSteps {
 
+    public static Properties getProperties(String path) throws IOException {
+        Properties properties = new Properties();
+        InputStream input = new FileInputStream(path);
+        properties.load(input);
+        return properties;
+    }
     static WebElement element;
 
     public static void followTheLinkSetWindowMode(WebDriver driver, String url, ScreenMode screenMode){
