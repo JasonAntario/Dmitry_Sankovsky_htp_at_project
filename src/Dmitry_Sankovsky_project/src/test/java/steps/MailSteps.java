@@ -27,10 +27,12 @@ public class MailSteps {
         TimeUnit.SECONDS.sleep(2);
     }
 
-    public static void putEmailInProperty(Properties prop, String email, String propertyPath) throws IOException {
-        email = email.replaceAll(String.format("%s", prop.getProperty("EMAIL")), "").replaceAll("[\\s*]","");
+    public static void putEmailInProperty(String trashMail, String propertyPath) throws IOException {
+        Properties prop = BaseSteps.getProperties(propertyPath);
+        trashMail = trashMail.replaceAll(String.format("%s", prop.getProperty("EMAIL")), "").replaceAll("[\\s*]", "");
         OutputStream out = new FileOutputStream(propertyPath);
-        prop.setProperty("TRASH_MAIL", email);
+        prop.put("TRASH_MAIL", trashMail);
         prop.store(out, null);
+
     }
 }

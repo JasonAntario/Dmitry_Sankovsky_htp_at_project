@@ -4,10 +4,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import settings.Config;
 import settings.ScreenMode;
 import steps.BaseSteps;
@@ -16,24 +14,24 @@ import web_driver.GetDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class Booking3Test {
-    int daysAmount = 1;
-    int daysShift = 1;
-    int adultNeed = 2;
-    int roomNeed = 1;
-    int childNeed = 1;
+public class BookingParisHouseTest {
+
+    int daysAmount = 7;
+    int daysShift = 3;
+    int adultNeed = 4;
+    int roomNeed = 2;
     WebElement element;
     WebDriver driver;
 
     @Before
-    public void preCondition() {
+    public void prePondition() {
         driver = GetDriver.getWebDriver(Config.CHROME);
         BaseSteps.followTheLinkSetWindowMode(driver, "https://www.booking.com/", ScreenMode.MAXIMIZE);
     }
 
     @Test
-    public void booking3Test() throws InterruptedException {
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Oslo");  //set City: Oslo
+    public void booking1Test() throws InterruptedException {
+        BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Paris");  //set City: Paris
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"xp__input-group xp__date-time\")]");
         BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysShift)));
         BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysAmount + daysShift)));  //set days
@@ -43,24 +41,20 @@ public class Booking3Test {
         BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"adult\")][contains(@class, \"add\")]", adultAmount, adultNeed);
         int roomAmount = Integer.parseInt(BaseSteps.findElementGetAttribute(driver, "//*[contains(@class,\"field-rooms\")]//input", "value"));
         BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"no_rooms_desc\")][contains(@class, \"add\")]", roomAmount, roomNeed); //set adult and room amount
-        int childAmount = Integer.parseInt(BaseSteps.findElementGetAttribute(driver, "//*[@id=\"group_children\"]", "value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"group_children_desc\")][contains(@class, \"add\")]", childAmount, childNeed);
+
         BaseSteps.findElementClick(driver, "//*[contains(@type, \"submit\")]");
         TimeUnit.SECONDS.sleep(4);
 
-        BaseSteps.findElementClick(driver, "//*[@data-id=\"class-3\"]");
-        BaseSteps.findElementClick(driver, "//*[@data-id=\"class-4\"]");
-        TimeUnit.SECONDS.sleep(4);
-        element = driver.findElement(By.xpath("//*[@id=\"hotellist_inner\"]/div[11]"));
+        BaseSteps.findElementClick(driver, "//*[contains(@class, \"sort_price\")]/a");
+        BaseSteps.findElementClick(driver, "//*[@id=\"filter_price\"]//a[5]");
         TimeUnit.SECONDS.sleep(2);
-        Actions actions = new Actions(driver);
 
-        element = SpecialSteps.scriptsExecuter(element, driver, actions);
+        String maxPrice = BaseSteps.findElementGetText(driver, "//*[@id=\"filter_price\"]//a[5]").replaceAll("\\D+", "");
+        String firstPrice = BaseSteps.findElementGetText(driver, "//*[contains(@class, \"bui-price-display\")]/div[2]/div").replaceAll("\\D+", "");
+        int firstOneDayPrice = Integer.parseInt(firstPrice) / daysAmount;
 
-        String textColor = element.getAttribute("style");
-        if (textColor.equals("color: red;"))
-            System.out.println("Red is Red");
-        Assert.assertEquals("color: red;", textColor);
+        System.out.println("Price: " + maxPrice + "+; Min one Night Price: " + firstOneDayPrice);
+        Assert.assertTrue(firstOneDayPrice >= Integer.parseInt(maxPrice));
     }
 
     @After
@@ -68,3 +62,4 @@ public class Booking3Test {
         BaseSteps.destroyDriver(driver);
     }
 }
+

@@ -16,7 +16,7 @@ import web_driver.GetDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class Booking2Test {
+public class BookingMoskowHouseTest {
     String date = null;
     int daysAmount = 5;
     int daysShift = 10;
