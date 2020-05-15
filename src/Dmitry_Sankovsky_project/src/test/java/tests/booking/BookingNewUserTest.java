@@ -15,6 +15,7 @@ import web_driver.GetDriver;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class BookingNewUserTest {
@@ -32,6 +33,26 @@ public class BookingNewUserTest {
 
     @Test
     public void createNewUserTest() throws InterruptedException, IOException {
+        bookingRegistration();
+        TimeUnit.SECONDS.sleep(3);
+        MailSteps.confirmLinkOnYandexMail("booking.com", driver);
+        String currentHandle = driver.getWindowHandle();
+        BaseSteps.findElementClick(driver, "//*[contains(text(), \"Подтверждаю\")]");
+        Set<String> handles = driver.getWindowHandles();
+        for (String actual : handles) {
+            if (actual.equalsIgnoreCase(currentHandle)) {
+                driver.switchTo().window(currentHandle);
+            }
+        }
+        TimeUnit.SECONDS.sleep(8);
+        driver.get("https://www.booking.com/");
+        TimeUnit.SECONDS.sleep(2);
+        BaseSteps.findElementClick(driver, "//*[@id=\"profile-menu-trigger--content\"]");
+        BaseSteps.findElementClick(driver, "//*[contains(@class, \"mydashboard\")]");
+        Assert.assertEquals(driver.findElements(By.xpath("//*[@class=\"email-confirm-banner\"]")).size(), 0);
+    }
+
+    public void bookingRegistration() throws IOException, InterruptedException {
         properties = BaseSteps.getProperties(BOOKING_PATH);
         BaseSteps.findElementClick(driver, "//*[@id=\"current_account_create\"]");
         TimeUnit.SECONDS.sleep(1);
@@ -41,15 +62,6 @@ public class BookingNewUserTest {
         BaseSteps.findElementSendKeys(driver, "//*[@id=\"password\"]", properties.getProperty("PASSWORD"));
         BaseSteps.findElementSendKeys(driver, "//*[@id=\"confirmed_password\"]", properties.getProperty("PASSWORD"));
         BaseSteps.findElementClick(driver, "//*[contains(@type, \"submit\")]");
-        TimeUnit.SECONDS.sleep(3);
-        MailSteps.confirmLinkOnYandexMail("booking.com", driver);
-        BaseSteps.findElementClick(driver, "//*[contains(text(), \"Подтверждаю\")]");
-        TimeUnit.SECONDS.sleep(8);
-        driver.get("https://www.booking.com/");
-        TimeUnit.SECONDS.sleep(2);
-        BaseSteps.findElementClick(driver, "//*[@id=\"profile-menu-trigger--content\"]");
-        BaseSteps.findElementClick(driver, "//*[contains(@class, \"mydashboard\")]");
-        Assert.assertEquals(driver.findElements(By.xpath("//*[@class=\"email-confirm-banner\"]")).size(), 0);
     }
 
     @After

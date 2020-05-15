@@ -1,9 +1,6 @@
 package steps.booking;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import steps.BaseSteps;
 
@@ -43,8 +40,10 @@ public class SpecialSteps {
         BaseSteps.findElementClick(driver, "//*[@type=\"submit\"]");
     }
 
-    public static void setCityPersonRoomDates(WebDriver driver, String City, int daysAmount, int daysShift, int adultNeed, int childNeed, int roomNeed){
-        //BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Madrid");   //for new City. Madrid in text field now
+    public static void setCityPersonRoomDates(WebDriver driver, String City, int daysAmount, int daysShift, int adultNeed, int childNeed, int roomNeed) {
+        WebElement element = driver.findElement(By.xpath("//*[@id=\"ss\"]"));
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"), City);
+        //BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", City);   //for new City. Madrid in text field now
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"xp__input-group xp__date-time\")]");
         BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysShift)));
         BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysAmount + daysShift)));  //set days

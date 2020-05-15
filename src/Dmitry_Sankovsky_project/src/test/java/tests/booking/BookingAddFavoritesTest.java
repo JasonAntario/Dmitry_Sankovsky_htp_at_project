@@ -48,6 +48,7 @@ public class BookingAddFavoritesTest {
         TimeUnit.SECONDS.sleep(6);
 
         List<WebElement> list = driver.findElements(By.xpath("//*[@id=\"hotellist_inner\"]/div")); //sometimes heart is div[50], sometimes is div[51]
+
         element = BaseSteps.findElementClickReturn(driver, String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button", (list.size()-1)));
         secondHotel = element.getAttribute("data-hotel-id");
         element = driver.findElement(By.xpath(String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button/*[1]", (list.size()-1))));
