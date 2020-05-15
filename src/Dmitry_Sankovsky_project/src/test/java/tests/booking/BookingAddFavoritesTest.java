@@ -1,31 +1,30 @@
 package tests.booking;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import settings.Config;
 import steps.BaseSteps;
 import steps.booking.SpecialSteps;
-import steps.trashmail.TrashMailNewUser;
 import web_driver.GetDriver;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class BookingAddFavoritesTest {
     WebElement element;
     WebDriver driver;
-    int daysAmount = 5;
-    int daysShift = 30;
-    int adultNeed = 2;
     String BOOKING_PATH = "src\\test\\java\\properties\\booking.properties";
     Properties properties;
-
+    String firstHotel, secondHotel;
     @Before
-    public void preCondition() throws IOException, InterruptedException {
+    public void preCondition() throws IOException{
         driver = GetDriver.getWebDriver(Config.CHROME);
         properties = BaseSteps.getProperties(BOOKING_PATH);
 
@@ -33,34 +32,47 @@ public class BookingAddFavoritesTest {
 
     @Test
     public void addToFavoritesTest() throws InterruptedException {
-        driver.get("https://www.booking.com/");
-        BaseSteps.findElementClick(driver, "//*[@id=\"current_account\"]");
+        SpecialSteps.bookingLogIn(driver, properties);
         TimeUnit.SECONDS.sleep(3);
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"username\"]", properties.getProperty("NEW_MAIL"));
-        BaseSteps.findElementClick(driver, "//*[@type=\"submit\"]");
-        TimeUnit.MILLISECONDS.sleep(500);
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"password\"]", properties.getProperty("PASSWORD"));
-        BaseSteps.findElementClick(driver, "//*[@type=\"submit\"]");
-        TimeUnit.SECONDS.sleep(3);
+        SpecialSteps.setCityPersonRoomDates(driver, "Madrid", 5, 30, 2, 0, 1);
+        setFavoritesCheckClolor();
+        compareHotelIndex(firstHotel, secondHotel);
+    }
 
-       //BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Madrid");
-        BaseSteps.findElementClick(driver, "//*[contains(@class, \"xp__input-group xp__date-time\")]");
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysShift)));
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysAmount + daysShift)));  //set days
-        BaseSteps.findElementClick(driver, "//*[@id=\"xp__guests__toggle\"]");
-
-        int adultAmount = Integer.parseInt(BaseSteps.findElementGetAttribute(driver, "//*[contains(@class,\"field-adult\")]//input", "value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"adult\")][contains(@class, \"add\")]", adultAmount, adultNeed);
-
-        BaseSteps.findElementClick(driver, "//*[contains(@type, \"submit\")]");
+    public void setFavoritesCheckClolor() throws InterruptedException {
+        element = BaseSteps.findElementClickReturn(driver, "//*[@id=\"hotellist_inner\"]/div[1]/div[1]/div/button");
+        firstHotel = element.getAttribute("data-hotel-id");
+        element = driver.findElement(By.xpath("//*[@id=\"hotellist_inner\"]/div[1]/div[1]/div/button/*[1]"));
+        TimeUnit.SECONDS.sleep(2);
+        Assert.assertEquals("rgb(204, 0, 0)", element.getCssValue("fill"));
+        BaseSteps.findElementClick(driver, "//*[contains(@class, \"bui-pagination__item\")][10]");
         TimeUnit.SECONDS.sleep(6);
-        BaseSteps.findElementClick(driver, "//*[@id=\"b_tt_holder_3\"]/svg");
 
+        List<WebElement> list = driver.findElements(By.xpath("//*[@id=\"hotellist_inner\"]/div")); //sometimes heart is div[50], sometimes is div[51]
+        element = BaseSteps.findElementClickReturn(driver, String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button", (list.size()-1)));
+        secondHotel = element.getAttribute("data-hotel-id");
+        element = driver.findElement(By.xpath(String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button/*[1]", (list.size()-1))));
+        TimeUnit.SECONDS.sleep(2);
+        Assert.assertEquals("rgb(204, 0, 0)", element.getCssValue("fill"));
+        System.out.println(firstHotel + " " + secondHotel);
+    }
+
+    public void compareHotelIndex(String firstHotel, String secondHotel) throws InterruptedException {
+        BaseSteps.findElementClick(driver, "//*[@id=\"profile-menu-trigger--content\"]");
+        BaseSteps.findElementClick(driver, "//*[contains(@class, \"mydashboard\")]");
+        TimeUnit.SECONDS.sleep(3);
+        BaseSteps.findElementClick(driver, "//*[contains(@class, \"list_item_desc\")]");
+        TimeUnit.SECONDS.sleep(5);
+
+        element = driver.findElement(By.xpath("//*[contains(@data-index, \"0\")]/div"));
+        Assert.assertEquals(firstHotel, element.getAttribute("data-id"));
+        element = driver.findElement(By.xpath("//*[contains(@data-index, \"1\")]/div"));
+        Assert.assertEquals(secondHotel, element.getAttribute("data-id"));
     }
 
     @After
     public void postCondition() {
-        // BaseSteps.destroyDriver(driver);
+        //BaseSteps.destroyDriver(driver);
     }
 
 
