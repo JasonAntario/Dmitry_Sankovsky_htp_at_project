@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MailSteps {
 
@@ -27,12 +29,10 @@ public class MailSteps {
         TimeUnit.SECONDS.sleep(2);
     }
 
-    public static void putEmailInProperty(String trashMail, String propertyPath) throws IOException {
+    public static void putEmailInProperty(String newMail, String propertyPath) throws IOException {
         Properties prop = BaseSteps.getProperties(propertyPath);
-        trashMail = trashMail.replaceAll(String.format("%s", prop.getProperty("EMAIL")), "").replaceAll("[\\s*]", "");
         OutputStream out = new FileOutputStream(propertyPath);
-        prop.put("TRASH_MAIL", trashMail);
+        prop.put("NEW_MAIL", newMail);
         prop.store(out, null);
-
     }
 }

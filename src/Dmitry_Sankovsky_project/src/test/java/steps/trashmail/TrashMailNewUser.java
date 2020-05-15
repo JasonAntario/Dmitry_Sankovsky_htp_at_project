@@ -19,21 +19,26 @@ public class TrashMailNewUser {
         driver.get("https://trashmail.com/");
         if (firstTime)
             BaseSteps.findElementSendKeys(driver, "//*[@id=\"fe-mob-forward\"]", prop.getProperty("EMAIL"));
-
+        getNewMail(driver);
         BaseSteps.findElementClick(driver, "//*[@id=\"fe-mob-fwd-nb\"]");
         BaseSteps.findElementClick(driver, "//*[@id=\"fe-mob-fwd-nb\"]/option[contains(text(), \"1\")]");
         BaseSteps.findElementClick(driver, "//*[@id=\"fe-mob-life-span\"]");
         BaseSteps.findElementClick(driver, "//*[@id=\"fe-mob-life-span\"]/option[contains(text(), \"1 day\")]");
         BaseSteps.findElementClick(driver, "//*[@id=\"fe-mob-submit\"]");
         TimeUnit.SECONDS.sleep(2);
-        if (driver.findElements(By.xpath("//*[contains(text(), \"trashMail address is not registered\")]")).size() > 0) {
+        if (driver.findElements(By.xpath("//*[contains(text(), \"address is not registered\")]")).size() > 0) {
             firstTime = false;
             trashmailRegistration(driver);
             trashmailGetNewMail(driver);
         }
         TimeUnit.SECONDS.sleep(3);
         String trashMail = BaseSteps.findElementGetText(driver, "//*[contains(text(), \"@trashmail.com\")]");
-        MailSteps.putEmailInProperty(trashMail, BOOKING_PATH);
+    }
+
+    private static void getNewMail(WebDriver driver) throws IOException {
+        String newMail = BaseSteps.findElementGetAttribute(driver, "//*[@id=\"fe-mob-name\"]", "value");
+        newMail = newMail.concat("@trashmail.com");
+        MailSteps.putEmailInProperty(newMail, BOOKING_PATH);
     }
 
     private static void trashmailRegistration(WebDriver driver) throws InterruptedException, IOException {
