@@ -14,7 +14,7 @@ public class TrashMailNewUser {
     private static boolean firstTime = true;
     private static String BOOKING_PATH = "src\\test\\java\\properties\\booking.properties";
 
-    public static void trashmailGetNewMail(WebDriver driver) throws InterruptedException, IOException {
+    public static void trashMailGetNewMail(WebDriver driver) throws InterruptedException, IOException {
         Properties prop = BaseSteps.getProperties(TRASHMAIL_PATH);
         driver.get("https://trashmail.com/");
         if (firstTime)
@@ -29,7 +29,7 @@ public class TrashMailNewUser {
         if (driver.findElements(By.xpath("//*[contains(text(), \"address is not registered\")]")).size() > 0) {
             firstTime = false;
             trashmailRegistration(driver);
-            trashmailGetNewMail(driver);
+            trashMailGetNewMail(driver);
         }
         TimeUnit.SECONDS.sleep(3);
         String trashMail = BaseSteps.findElementGetText(driver, "//*[contains(text(), \"@trashmail.com\")]");

@@ -26,7 +26,7 @@ public class BookingNewUserTest {
     @Before
     public void preCondition() throws IOException, InterruptedException {
         driver = GetDriver.getWebDriver(Config.CHROME);
-        TrashMailNewUser.trashmailGetNewMail(driver);
+        TrashMailNewUser.trashMailGetNewMail(driver);
         driver.get("https://www.booking.com/");
     }
 
@@ -49,7 +49,7 @@ public class BookingNewUserTest {
         TimeUnit.SECONDS.sleep(2);
         BaseSteps.findElementClick(driver, "//*[@id=\"profile-menu-trigger--content\"]");
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"mydashboard\")]");
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@class=\"email-confirm-banner\"]")).size() == 0);
+        Assert.assertEquals(driver.findElements(By.xpath("//*[@class=\"email-confirm-banner\"]")).size(), 0);
     }
 
     @After

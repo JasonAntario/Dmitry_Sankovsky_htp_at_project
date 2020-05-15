@@ -27,7 +27,6 @@ public class BookingAddFavoritesTest {
     public void preCondition() throws IOException{
         driver = GetDriver.getWebDriver(Config.CHROME);
         properties = BaseSteps.getProperties(BOOKING_PATH);
-
     }
 
     @Test
