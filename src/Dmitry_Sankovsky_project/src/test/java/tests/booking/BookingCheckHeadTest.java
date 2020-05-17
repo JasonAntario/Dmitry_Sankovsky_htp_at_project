@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.booking.MainPage;
 import settings.Config;
 import steps.BaseSteps;
 import steps.booking.SpecialSteps;
@@ -35,7 +36,7 @@ public class BookingCheckHeadTest {
 
     @Test
     public void addToFavoritesTest() throws InterruptedException {
-        SpecialSteps.bookingLogIn(driver, properties);
+        MainPage.bookingLogIn(driver, properties);
         TimeUnit.SECONDS.sleep(4);
         addToList("//*[@id=\"top\"]/div/img");
         addToList("//*[@id=\"user_form\"]/ul/li");

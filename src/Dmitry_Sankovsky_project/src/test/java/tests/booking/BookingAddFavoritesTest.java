@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.booking.MainPage;
 import settings.Config;
 import steps.BaseSteps;
 import steps.booking.SpecialSteps;
@@ -31,9 +32,9 @@ public class BookingAddFavoritesTest {
 
     @Test
     public void addToFavoritesTest() throws InterruptedException {
-        SpecialSteps.bookingLogIn(driver, properties);
+        MainPage.bookingLogIn(driver, properties);
         TimeUnit.SECONDS.sleep(3);
-        SpecialSteps.setCityPersonRoomDates(driver, "Madrid", 5, 30, 2, 0, 1);
+        MainPage.setCityPersonRoomDates(driver, "Madrid", 5, 30, 2, 0, 1);
         setFavoritesCheckClolor();
         compareHotelIndex(firstHotel, secondHotel);
     }
