@@ -8,9 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.booking.MainPage;
+import properties.PropertyPath;
 import settings.Config;
 import steps.BaseSteps;
-import steps.booking.SpecialSteps;
 import web_driver.GetDriver;
 
 import java.io.IOException;
@@ -21,13 +21,13 @@ import java.util.concurrent.TimeUnit;
 public class BookingAddFavoritesTest {
     WebElement element;
     WebDriver driver;
-    String BOOKING_PATH = "src\\test\\java\\properties\\booking.properties";
     Properties properties;
     String firstHotel, secondHotel;
+
     @Before
-    public void preCondition() throws IOException{
+    public void preCondition() throws IOException {
         driver = GetDriver.getWebDriver(Config.CHROME);
-        properties = BaseSteps.getProperties(BOOKING_PATH);
+        properties = BaseSteps.getProperties(PropertyPath.BOOKING_PATH);
     }
 
     @Test
@@ -50,9 +50,9 @@ public class BookingAddFavoritesTest {
 
         List<WebElement> list = driver.findElements(By.xpath("//*[@id=\"hotellist_inner\"]/div")); //sometimes heart is div[50], sometimes is div[51]
 
-        element = BaseSteps.findElementClickReturn(driver, String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button", (list.size()-1)));
+        element = BaseSteps.findElementClickReturn(driver, String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button", (list.size() - 1)));
         secondHotel = element.getAttribute("data-hotel-id");
-        element = driver.findElement(By.xpath(String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button/*[1]", (list.size()-1))));
+        element = driver.findElement(By.xpath(String.format("//*[@id=\"hotellist_inner\"]/div[%s]/div[1]/div/button/*[1]", (list.size() - 1))));
         TimeUnit.SECONDS.sleep(2);
         Assert.assertEquals("rgb(204, 0, 0)", element.getCssValue("fill"));
         System.out.println(firstHotel + " " + secondHotel);
@@ -73,8 +73,7 @@ public class BookingAddFavoritesTest {
 
     @After
     public void postCondition() {
-        //BaseSteps.destroyDriver(driver);
+        BaseSteps.destroyDriver(driver);
     }
-
 
 }
