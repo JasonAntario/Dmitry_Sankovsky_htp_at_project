@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.booking.MainPage;
+import properties.PropertyPath;
 import settings.Config;
 import steps.BaseSteps;
 import steps.MailSteps;
@@ -21,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 public class BookingNewUserTest {
     WebElement element;
     WebDriver driver;
-    String BOOKING_PATH = "src\\test\\java\\properties\\booking.properties";
     Properties properties;
 
     @Before
@@ -33,7 +34,7 @@ public class BookingNewUserTest {
 
     @Test
     public void createNewUserTest() throws InterruptedException, IOException {
-        bookingRegistration();
+        MainPage.bookingRegistration(driver, properties, PropertyPath.BOOKING_PATH);
         TimeUnit.SECONDS.sleep(3);
         MailSteps.confirmLinkOnYandexMail("booking.com", driver);
         String currentHandle = driver.getWindowHandle();
@@ -52,22 +53,8 @@ public class BookingNewUserTest {
         Assert.assertEquals(driver.findElements(By.xpath("//*[@class=\"email-confirm-banner\"]")).size(), 0);
     }
 
-    public void bookingRegistration() throws IOException, InterruptedException {
-        properties = BaseSteps.getProperties(BOOKING_PATH);
-        BaseSteps.findElementClick(driver, "//*[@id=\"current_account_create\"]");
-        TimeUnit.SECONDS.sleep(1);
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"login_name_register\"]", properties.getProperty("NEW_MAIL"));
-        BaseSteps.findElementClick(driver, "//*[contains(@class, \"nw-register\")]/button");
-        TimeUnit.SECONDS.sleep(1);
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"password\"]", properties.getProperty("PASSWORD"));
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"confirmed_password\"]", properties.getProperty("PASSWORD"));
-        BaseSteps.findElementClick(driver, "//*[contains(@type, \"submit\")]");
-    }
-
     @After
     public void postCondition() {
         BaseSteps.destroyDriver(driver);
     }
-
-
 }

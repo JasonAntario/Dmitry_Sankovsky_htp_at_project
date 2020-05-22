@@ -6,10 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.booking.MainPage;
 import settings.Config;
 import settings.ScreenMode;
 import steps.BaseSteps;
-import steps.booking.SpecialSteps;
 import web_driver.GetDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -31,18 +31,7 @@ public class BookingParisHouseTest {
 
     @Test
     public void booking1Test() throws InterruptedException {
-        BaseSteps.findElementSendKeys(driver, "//*[@id=\"ss\"]", "Paris");  //set City: Paris
-        BaseSteps.findElementClick(driver, "//*[contains(@class, \"xp__input-group xp__date-time\")]");
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysShift)));
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", SpecialSteps.setDays(daysAmount + daysShift)));  //set days
-        BaseSteps.findElementClick(driver, "//*[@id=\"xp__guests__toggle\"]");
-
-        int adultAmount = Integer.parseInt(BaseSteps.findElementGetAttribute(driver, "//*[contains(@class,\"field-adult\")]//input", "value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"adult\")][contains(@class, \"add\")]", adultAmount, adultNeed);
-        int roomAmount = Integer.parseInt(BaseSteps.findElementGetAttribute(driver, "//*[contains(@class,\"field-rooms\")]//input", "value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"no_rooms_desc\")][contains(@class, \"add\")]", roomAmount, roomNeed); //set adult and room amount
-
-        BaseSteps.findElementClick(driver, "//*[contains(@type, \"submit\")]");
+        MainPage.setCityPersonRoomDates(driver,"Paris",daysAmount,daysShift,adultNeed,0,roomNeed);
         TimeUnit.SECONDS.sleep(4);
 
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"sort_price\")]/a");
