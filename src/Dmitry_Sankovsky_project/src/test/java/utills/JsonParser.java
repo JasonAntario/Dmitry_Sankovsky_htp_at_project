@@ -16,8 +16,8 @@ import java.nio.file.Paths;
 
 public class JsonParser {
 
-    private final static String JSON = "src\\Dmitry_Sankovsky_project\\src\\test\\java\\resorces\\recipe.json";
-    File file = new File(JSON);
+    private final static String JSON = "src\\Dmitry_Sankovsky_project\\src\\test\\java\\resources\\recipe.json";
+    private File file = new File(JSON);
 
     public void parseJSON(FileReader fileReader) throws IOException {
         String input = new String(Files.readAllBytes(Paths.get(JSON)));
@@ -37,7 +37,7 @@ public class JsonParser {
         System.out.println(recipe.recipename);
     }
 
-    public void fromGson() throws FileNotFoundException {
+    public void fromGson() {
         Gson gson = new Gson();
         Recipe recipe = new Recipe("borsh", new Ingredient[]{}, 120);
         System.out.println(gson.toJson(recipe));

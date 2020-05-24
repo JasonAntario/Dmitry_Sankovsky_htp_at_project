@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class GetDataSteps {
-    public static String JSON = "src\\test\\java\\resorces\\testdata\\search.json";
+    private static String JSON = "src\\test\\java\\resources\\testdata\\search.json";
     private static Search[] searches;
 
     public static Search getSearchDataFromFile(Gson gson, int condition) throws FileNotFoundException {

@@ -1,4 +1,4 @@
-package runners.Cucumber;
+package runners.cucumber;
 
 
 import cucumber.api.CucumberOptions;
@@ -10,11 +10,12 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         glue = {"steps.base", "steps.gui", "steps.api"},
-        features = {"src/test/java/resorces/features/userApiTest.feature"
+        features = {"src/test/java/resources/features/userApiTest.feature"
         },
-        monochrome = false,
-        snippets = SnippetType.CAMELCASE,
-        strict = false)
+        //monochrome = false,
+        snippets = SnippetType.CAMELCASE
+        // strict = false
+)
 
 public class CucumberRunner {
 
