@@ -40,7 +40,8 @@ public class BookingMoskowHouseTest {
         actions.moveToElement(element).click().sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ARROW_DOWN).click().perform();
         element = driver.findElement(By.xpath("//*[@id=\"no_rooms\"]"));
         actions.moveToElement(element).click().sendKeys(Keys.ARROW_DOWN).click().perform();
-
+        actions.moveToElement(driver.findElement(By.xpath("//*[@data-sb-id=\"main\"][contains(@type, \"submit\")]"))).click().perform();
+        TimeUnit.SECONDS.sleep(2);
         BaseSteps.findElementClick(driver, "//*[contains(@class, \"sort_price\")]/a");
         element = BaseSteps.findElementClickReturn(driver, "//*[@id=\"filter_price\"]//a[1]");
         String maxPrice = element.getText();
@@ -48,13 +49,13 @@ public class BookingMoskowHouseTest {
         TimeUnit.SECONDS.sleep(2);
         String firstPrice = BaseSteps.findElementGetText(driver, "//*[contains(@class, \"bui-price-display\")]/div[2]/div");
         firstPrice = firstPrice.replaceAll("\\D+", "");
-        int firstOneDayPrice = Integer.parseInt(firstPrice) / (daysAmount - daysShift);
+        int firstOneDayPrice = Integer.parseInt(firstPrice) / (daysAmount);
         System.out.println("Price: up to " + maxPrice + "; Min one Night Price: " + firstOneDayPrice);
         Assert.assertTrue(firstOneDayPrice <= Integer.parseInt(maxPrice));
     }
 
     @After
     public void postCondition() {
-        BaseSteps.destroyDriver(driver);
+        //  BaseSteps.destroyDriver(driver);
     }
 }
