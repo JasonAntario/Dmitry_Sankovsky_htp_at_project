@@ -1,0 +1,12 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "id": "1",
+      "username": "a",
+      "realname": "Alberto Boo",
+      "password": "b",
+      "email": "alberto.boo@mail.com"
+    }
+  ]
+}
