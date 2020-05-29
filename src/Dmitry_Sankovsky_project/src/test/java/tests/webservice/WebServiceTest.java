@@ -1,15 +1,19 @@
 package tests.webservice;
 
 import com.google.gson.Gson;
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import properties.PropertyPath;
 import steps.BaseSteps;
+import steps.base.UsersApiSteps;
 import steps.userWebService.GetDataSteps;
 import utills.RequiredValues;
 import utills.Search;
@@ -25,9 +29,11 @@ public class WebServiceTest {
     static Properties paths;
     static Search search;
     static RequiredValues condition, result;
+    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
 
     @Before
     public void before() throws IOException {
+        LOGGER.info("Start test");
         gson = new Gson();
         getDataSteps = new GetDataSteps();
         paths = BaseSteps.getProperties(PropertyPath.WEB_SERVICE_CONDITIONS);
@@ -50,7 +56,7 @@ public class WebServiceTest {
 
     @Then("I validate the web service response")
     public void iValidateTheWebServiceResponse() {
-        Assert.assertEquals(condition.code, result.code);
+        Assert.assertEquals(condition.hashCode(), result.hashCode());
     }
 
     @Test
@@ -93,4 +99,8 @@ public class WebServiceTest {
         Assert.assertEquals(condition, result);
     }
 
+    @After
+    public void post_condition() {
+        LOGGER.info("Finish test");
+    }
 }
