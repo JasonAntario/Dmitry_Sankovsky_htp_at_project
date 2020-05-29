@@ -4,6 +4,8 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -17,6 +19,7 @@ import pages.booking.MainPage;
 import settings.Config;
 import settings.ScreenMode;
 import steps.BaseSteps;
+import steps.base.UsersApiSteps;
 import web_driver.GetDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -29,6 +32,7 @@ public class BookingOsloHouseTest {
     int childNeed = 1;
     WebElement element;
     static WebDriver driver;
+    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
 
     @BeforeClass
     public static void preCondition() {
@@ -38,6 +42,7 @@ public class BookingOsloHouseTest {
     @Before
     public static void pre_condition() {
         driver = GetDriver.getWebDriver(Config.CHROME);
+        LOGGER.info("Start test");
     }
 
     @Given("I go to booking.com")
@@ -103,6 +108,7 @@ public class BookingOsloHouseTest {
     @After
     public static void post_condition() {
         BaseSteps.destroyDriver(driver);
+        LOGGER.info("Finish test");
     }
 
     @AfterClass
