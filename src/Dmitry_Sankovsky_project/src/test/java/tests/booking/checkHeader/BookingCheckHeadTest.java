@@ -1,5 +1,8 @@
-package tests.booking;
+package tests.booking.checkHeader;
 
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +37,37 @@ public class BookingCheckHeadTest {
         bigList = new ArrayList<>();
     }
 
+    @cucumber.api.java.Before
+    public void pre_condition() throws IOException {
+        driver = GetDriver.getWebDriver(Config.CHROME);
+        properties = BaseSteps.getProperties(PropertyPath.BOOKING_PATH);
+        bigList = new ArrayList<>();
+    }
+
+    @Given("I go to booking.com")
+    public void iGoToBookingCom() {
+
+    }
+
+    @Then("I log in")
+    public void iLogIn() throws InterruptedException {
+        MainPage.bookingLogIn(driver, properties);
+        TimeUnit.SECONDS.sleep(4);
+    }
+
+    @Then("I find all header elements")
+    public void iFindAllHeaderElements() {
+        addToList("//*[@id=\"top\"]/div/img");
+        addToList("//*[@id=\"user_form\"]/ul/li");
+        addToList("//*[@id=\"cross-product-bar\"]/div/a");
+        addToList("//*[@id=\"cross-product-bar\"]/div/span");
+    }
+
+    @Then("I check the number of items found")
+    public void iCheckTheNumberOfItemsFound() {
+        Assert.assertEquals(12, bigList.size());
+    }
+
     @Test
     public void addToFavoritesTest() throws InterruptedException {
         MainPage.bookingLogIn(driver, properties);
@@ -50,5 +84,15 @@ public class BookingCheckHeadTest {
             list = driver.findElements(By.xpath(xPath));
             bigList.addAll(list);
         }
+    }
+
+    @cucumber.api.java.After
+    public void post_condition() {
+        BaseSteps.destroyDriver(driver);
+    }
+
+    @After
+    public void postCondition() {
+        BaseSteps.destroyDriver(driver);
     }
 }
