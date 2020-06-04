@@ -15,9 +15,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pages.booking.MainPage;
 import settings.Config;
-import steps.BaseSteps;
-import steps.base.UsersApiSteps;
-import web_driver.GetDriver;
+import web_driver.MyDriver;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,10 +27,10 @@ public class BookingMoskowHouseTest {
     static WebDriver driver;
     String maxPrice;
 
-    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
+    private static final Logger LOGGER = LogManager.getLogger(BookingMoskowHouseTest.class);
     @Before
     public void pre_condition() {
-        driver = GetDriver.getWebDriver(Config.CHROME);
+        MyDriver.initDriver(Config.CHROME);
         LOGGER.info("Start test");
     }
 
@@ -43,7 +41,7 @@ public class BookingMoskowHouseTest {
 
     @Then("I enter data to search")
     public void iEnterDataToSearch() throws InterruptedException {
-        MainPage.setCityPersonRoomDates(driver, "Moscow", daysAmount, daysShift, 2, 0, 1);
+        MainPage.setCityPersonRoomDates( "Moscow", daysAmount, daysShift, 2, 0, 1);
         TimeUnit.SECONDS.sleep(3);
     }
 
@@ -60,8 +58,8 @@ public class BookingMoskowHouseTest {
 
     @Then("I filter hotels at the minimum price")
     public void iFilterHotelsAtTheMinimumPrice() throws InterruptedException {
-        BaseSteps.findElementClick(driver, "//*[contains(@class, \"sort_price\")]/a");
-        element = BaseSteps.findElementClickReturn(driver, "//*[@id=\"filter_price\"]//a[1]");
+        MyDriver.findElementClick( "//*[contains(@class, \"sort_price\")]/a");
+        element = MyDriver.findElementClickReturn( "//*[@id=\"filter_price\"]//a[1]");
         maxPrice = element.getText();
         maxPrice = maxPrice.replaceAll("([^1-9][^0-9]+)", "");
         TimeUnit.SECONDS.sleep(2);
@@ -69,7 +67,7 @@ public class BookingMoskowHouseTest {
 
     @Then("I'm looking hotel with minimum price")
     public void iMLookingHotelWithMinimumPrice() {
-        String firstPrice = BaseSteps.findElementGetText(driver, "//*[contains(@class, \"bui-price-display\")]/div[2]/div");
+        String firstPrice = MyDriver.findElementGetText( "//*[contains(@class, \"bui-price-display\")]/div[2]/div");
         firstPrice = firstPrice.replaceAll("\\D+", "");
         firstOneDayPrice = Integer.parseInt(firstPrice) / (daysAmount);
     }
@@ -84,7 +82,7 @@ public class BookingMoskowHouseTest {
     @Test
     public void booking2Test() throws InterruptedException {
         driver.get("https://www.booking.com/");
-        MainPage.setCityPersonRoomDates(driver, "Moscow", daysAmount, daysShift, 2, 0, 1);
+        MainPage.setCityPersonRoomDates("Moscow", daysAmount, daysShift, 2, 0, 1);
         TimeUnit.SECONDS.sleep(3);
 
         Actions actions = new Actions(driver);
@@ -94,12 +92,12 @@ public class BookingMoskowHouseTest {
         actions.moveToElement(element).click().sendKeys(Keys.ARROW_DOWN).click().perform();
         actions.moveToElement(driver.findElement(By.xpath("//*[@data-sb-id=\"main\"][contains(@type, \"submit\")]"))).click().perform();
         TimeUnit.SECONDS.sleep(2);
-        BaseSteps.findElementClick(driver, "//*[contains(@class, \"sort_price\")]/a");
-        element = BaseSteps.findElementClickReturn(driver, "//*[@id=\"filter_price\"]//a[1]");
+        MyDriver.findElementClick( "//*[contains(@class, \"sort_price\")]/a");
+        element = MyDriver.findElementClickReturn( "//*[@id=\"filter_price\"]//a[1]");
         String maxPrice = element.getText();
         maxPrice = maxPrice.replaceAll("([^1-9][^0-9]+)", "");
         TimeUnit.SECONDS.sleep(2);
-        String firstPrice = BaseSteps.findElementGetText(driver, "//*[contains(@class, \"bui-price-display\")]/div[2]/div");
+        String firstPrice = MyDriver.findElementGetText( "//*[contains(@class, \"bui-price-display\")]/div[2]/div");
         firstPrice = firstPrice.replaceAll("\\D+", "");
         int firstOneDayPrice = Integer.parseInt(firstPrice) / (daysAmount);
         System.out.println("Price: up to " + maxPrice + "; Min one Night Price: " + firstOneDayPrice);
@@ -109,7 +107,7 @@ public class BookingMoskowHouseTest {
 
     @After
     public static void post_condition() {
-        BaseSteps.destroyDriver(driver);
+        MyDriver.destroyDriver();
         LOGGER.info("Finish test");
     }
 

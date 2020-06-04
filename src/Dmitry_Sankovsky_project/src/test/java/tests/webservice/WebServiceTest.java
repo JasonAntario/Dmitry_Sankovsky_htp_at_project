@@ -11,12 +11,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import properties.PropertyPath;
-import steps.BaseSteps;
-import steps.base.UsersApiSteps;
+import utills.PropertyPath;
 import steps.userWebService.GetDataSteps;
 import utills.RequiredValues;
 import utills.Search;
+import web_driver.MyDriver;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,14 +28,14 @@ public class WebServiceTest {
     static Properties paths;
     static Search search;
     static RequiredValues condition, result;
-    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
+    private static final Logger LOGGER = LogManager.getLogger(WebServiceTest.class);
 
     @Before
     public void before() throws IOException {
         LOGGER.info("Start test");
         gson = new Gson();
         getDataSteps = new GetDataSteps();
-        paths = BaseSteps.getProperties(PropertyPath.WEB_SERVICE_CONDITIONS);
+        paths = MyDriver.getProperties(PropertyPath.WEB_SERVICE_CONDITIONS);
     }
 
     @Given("I start finding by {int} predicate")

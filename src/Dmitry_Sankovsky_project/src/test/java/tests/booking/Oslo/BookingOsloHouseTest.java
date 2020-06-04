@@ -18,9 +18,7 @@ import pages.booking.HotelsPage;
 import pages.booking.MainPage;
 import settings.Config;
 import settings.ScreenMode;
-import steps.BaseSteps;
-import steps.base.UsersApiSteps;
-import web_driver.GetDriver;
+import web_driver.MyDriver;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,34 +30,34 @@ public class BookingOsloHouseTest {
     int childNeed = 1;
     WebElement element;
     static WebDriver driver;
-    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
+    private static final Logger LOGGER = LogManager.getLogger(BookingOsloHouseTest.class);
 
     @BeforeClass
     public static void preCondition() {
-        driver = GetDriver.getWebDriver(Config.CHROME);
+        MyDriver.initDriver(Config.CHROME);
     }
 
     @Before
     public static void pre_condition() {
-        driver = GetDriver.getWebDriver(Config.CHROME);
+        MyDriver.initDriver(Config.CHROME);
         LOGGER.info("Start test");
     }
 
     @Given("I go to booking.com")
     public void iGoToBookingCom() {
-        BaseSteps.followTheLinkSetWindowMode(driver, "https://www.booking.com/", ScreenMode.MAXIMIZE);
+        MyDriver.followTheLinkSetWindowMode( "https://www.booking.com/", ScreenMode.MAXIMIZE);
     }
 
     @Then("I enter data to search")
     public void iEnterDataToSearch() throws InterruptedException {
-        MainPage.setCityPersonRoomDates(driver, "Oslo", daysAmount, daysShift, adultNeed, childNeed, roomNeed);
+        MainPage.setCityPersonRoomDates( "Oslo", daysAmount, daysShift, adultNeed, childNeed, roomNeed);
         TimeUnit.SECONDS.sleep(4);
     }
 
     @Then("I find hotels with 3 and 4 stars")
     public void iFindHotelsWithStars() throws InterruptedException {
-        BaseSteps.findElementClick(driver, "//*[@data-id=\"class-3\"]");
-        BaseSteps.findElementClick(driver, "//*[@data-id=\"class-4\"]");
+        MyDriver.findElementClick( "//*[@data-id=\"class-3\"]");
+        MyDriver.findElementClick( "//*[@data-id=\"class-4\"]");
         TimeUnit.SECONDS.sleep(4);
     }
 
@@ -86,12 +84,12 @@ public class BookingOsloHouseTest {
 
     @Test
     public void booking3Test() throws InterruptedException {
-        BaseSteps.followTheLinkSetWindowMode(driver, "https://www.booking.com/", ScreenMode.MAXIMIZE);
-        MainPage.setCityPersonRoomDates(driver, "Oslo", daysAmount, daysShift, adultNeed, childNeed, roomNeed);
+        MyDriver.followTheLinkSetWindowMode( "https://www.booking.com/", ScreenMode.MAXIMIZE);
+        MainPage.setCityPersonRoomDates( "Oslo", daysAmount, daysShift, adultNeed, childNeed, roomNeed);
         TimeUnit.SECONDS.sleep(4);
 
-        BaseSteps.findElementClick(driver, "//*[@data-id=\"class-3\"]");
-        BaseSteps.findElementClick(driver, "//*[@data-id=\"class-4\"]");
+        MyDriver.findElementClick( "//*[@data-id=\"class-3\"]");
+        MyDriver.findElementClick( "//*[@data-id=\"class-4\"]");
         TimeUnit.SECONDS.sleep(4);
         element = driver.findElement(By.xpath("//*[@id=\"hotellist_inner\"]/div[11]"));
         TimeUnit.SECONDS.sleep(2);
@@ -107,12 +105,12 @@ public class BookingOsloHouseTest {
 
     @After
     public static void post_condition() {
-        BaseSteps.destroyDriver(driver);
+        MyDriver.destroyDriver();
         LOGGER.info("Finish test");
     }
 
     @AfterClass
     public static void postCondition() {
-        BaseSteps.destroyDriver(driver);
+        MyDriver.destroyDriver();
     }
 }

@@ -2,13 +2,9 @@ package utills;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import org.json.JSONObject;
-import steps.jsonTestIngredients.Ingredient;
-import steps.jsonTestIngredients.Recipe;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,21 +21,22 @@ public class JsonParser {
         System.out.println(obj.getString("preptime"));
     }
 
-    public void parseGson() throws FileNotFoundException {
+    public void parseGson() {
         Gson gson = new Gson();
-        Recipe recipe = gson.fromJson(new JsonReader(new FileReader(JSON)), Recipe.class);
-        System.out.println(recipe.recipename);
+        //Recipe recipe = gson.fromJson(new JsonReader(new FileReader(JSON)), Recipe.class);
+       // System.out.println(recipe.recipename);
     }
 
-   public void parseJackson() throws IOException {
+   public void parseJackson(){
         ObjectMapper mapper = new ObjectMapper();
-        Recipe recipe = mapper.readValue(file, Recipe.class);
-        System.out.println(recipe.recipename);
+       // Recipe recipe = mapper.readValue(file, Recipe.class);
+      //  System.out.println(recipe.recipename);
     }
 
     public void fromGson() {
         Gson gson = new Gson();
-        Recipe recipe = new Recipe("borsh", new Ingredient[]{}, 120);
-        System.out.println(gson.toJson(recipe));
+        //Recipe recipe = new Recipe("borsh", new Ingredient[]{}, 120);
+       // System.out.println(gson.toJson(recipe));
     }
+
 }

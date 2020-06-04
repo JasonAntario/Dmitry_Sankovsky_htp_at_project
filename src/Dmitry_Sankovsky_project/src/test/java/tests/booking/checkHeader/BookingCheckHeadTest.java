@@ -12,11 +12,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.booking.MainPage;
-import properties.PropertyPath;
+import utills.PropertyPath;
 import settings.Config;
-import steps.BaseSteps;
-import steps.base.UsersApiSteps;
-import web_driver.GetDriver;
+import web_driver.MyDriver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,20 +30,20 @@ public class BookingCheckHeadTest {
     Properties properties;
     List<WebElement> list;
     List<WebElement> bigList;
-    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
+    private static final Logger LOGGER = LogManager.getLogger(BookingCheckHeadTest.class);
 
     @Before
     public void preCondition() throws IOException {
-        driver = GetDriver.getWebDriver(Config.CHROME);
-        properties = BaseSteps.getProperties(PropertyPath.BOOKING_PATH);
+        MyDriver.initDriver(Config.CHROME);
+        properties = MyDriver.getProperties(PropertyPath.BOOKING_PATH);
         bigList = new ArrayList<>();
     }
 
     @cucumber.api.java.Before
     public void pre_condition() throws IOException {
         LOGGER.info("Start test");
-        driver = GetDriver.getWebDriver(Config.CHROME);
-        properties = BaseSteps.getProperties(PropertyPath.BOOKING_PATH);
+        MyDriver.initDriver(Config.CHROME);
+        properties = MyDriver.getProperties(PropertyPath.BOOKING_PATH);
         bigList = new ArrayList<>();
     }
 
@@ -93,12 +91,12 @@ public class BookingCheckHeadTest {
 
     @cucumber.api.java.After
     public void post_condition() {
-        BaseSteps.destroyDriver(driver);
+        MyDriver.destroyDriver();
         LOGGER.info("Finish test");
     }
 
     @After
     public void postCondition() {
-        BaseSteps.destroyDriver(driver);
+        MyDriver.destroyDriver();
     }
 }

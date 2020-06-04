@@ -6,7 +6,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import settings.Config;
 
-public class GetDriverManager {
+public class DriverManager {
 
     public static WebDriver getDriver(Config config) {
 

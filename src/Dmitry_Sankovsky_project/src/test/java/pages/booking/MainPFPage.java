@@ -1,20 +1,7 @@
 package pages.booking;
 
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import steps.BaseSteps;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
 public class MainPFPage {
-
+/*
     @FindBy(xpath = "//*[@id=\"ss\"]")
     private static WebElement cityTextBox;
     @FindBy(xpath = "//*[contains(@class, \"xp__input-group xp__date-time\")]")
@@ -39,15 +26,15 @@ public class MainPFPage {
     public static void setCityPersonRoomDates(WebDriver driver, String City, int daysAmount, int daysShift, int adultNeed, int childNeed, int roomNeed) {
         cityTextBox.sendKeys(Keys.chord(Keys.CONTROL, "a"), City);
         dataBox.click();
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", setDays(daysShift)));
-        BaseSteps.findElementClick(driver, String.format("//*[contains(@data-date, \"%s\")]", setDays(daysAmount + daysShift)));  //set days
+        MyDriver.findElementClick( String.format("//*[contains(@data-date, \"%s\")]", setDays(daysShift)));
+        MyDriver.findElementClick( String.format("//*[contains(@data-date, \"%s\")]", setDays(daysAmount + daysShift)));  //set days
         personsRoomsBox.click();
         int adultAmount = Integer.parseInt(adultInput.getAttribute("value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"adult\")][contains(@class, \"add\")]", adultAmount, adultNeed);
+        MyDriver.findElementClickRepeat( "//*[contains(@aria-describedby, \"adult\")][contains(@class, \"add\")]", adultAmount, adultNeed);
         int roomAmount = Integer.parseInt(roomsInput.getAttribute("value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"no_rooms_desc\")][contains(@class, \"add\")]", roomAmount, roomNeed); //set adult and room amount
+        MyDriver.findElementClickRepeat( "//*[contains(@aria-describedby, \"no_rooms_desc\")][contains(@class, \"add\")]", roomAmount, roomNeed); //set adult and room amount
         int childAmount = Integer.parseInt(childInput.getAttribute("value"));
-        BaseSteps.findElementClickRepeat(driver, "//*[contains(@aria-describedby, \"group_children_desc\")][contains(@class, \"add\")]", childAmount, childNeed);
+        MyDriver.findElementClickRepeat( "//*[contains(@aria-describedby, \"group_children_desc\")][contains(@class, \"add\")]", childAmount, childNeed);
         submitSearch.click();
     }
     @FindBy(xpath = "//*[@id=\"current_account\"]")
@@ -83,7 +70,7 @@ public class MainPFPage {
     private static WebElement confirmPassword;
 
     public static void bookingRegistration(WebDriver driver, Properties properties, String BOOKING_PATH) throws IOException, InterruptedException {
-        properties = BaseSteps.getProperties(BOOKING_PATH);
+        properties = MyDriver.getProperties(BOOKING_PATH);
         createAccount.click();
         TimeUnit.SECONDS.sleep(1);
         enterLogin.sendKeys(properties.getProperty("NEW_MAIL"));
@@ -99,5 +86,5 @@ public class MainPFPage {
         Date newDate = calendar.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(newDate);
-    }
+    }*/
 }

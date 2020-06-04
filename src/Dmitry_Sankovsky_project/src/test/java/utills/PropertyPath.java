@@ -1,4 +1,4 @@
-package properties;
+package utills;
 
 public class PropertyPath {
 

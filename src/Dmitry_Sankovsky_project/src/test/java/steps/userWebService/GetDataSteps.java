@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import steps.base.UsersApiSteps;
 import utills.RequiredValues;
 import utills.Search;
 
@@ -15,7 +14,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 public class GetDataSteps {
-    private static final Logger LOGGER = LogManager.getLogger(UsersApiSteps.class);
+    private static final Logger LOGGER = LogManager.getLogger(GetDataSteps.class);
 
     public static Search getSearchDataFromFile(Gson gson, int condition, Properties paths) throws IOException {
         LOGGER.debug("Parsing predicate to .json");

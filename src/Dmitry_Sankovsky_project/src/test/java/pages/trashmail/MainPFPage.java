@@ -3,9 +3,9 @@ package pages.trashmail;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import properties.PropertyPath;
-import steps.BaseSteps;
+import utills.PropertyPath;
 import steps.MailSteps;
+import web_driver.MyDriver;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -46,7 +46,7 @@ public class MainPFPage {
     private static WebElement confirmButton;
 
     public static void trashmailRegistration(WebDriver driver) throws InterruptedException, IOException {
-        Properties prop = BaseSteps.getProperties(PropertyPath.TRASHMAIL_PATH);
+        Properties prop = MyDriver.getProperties(PropertyPath.TRASHMAIL_PATH);
         newUser.click();
         TimeUnit.SECONDS.sleep(1);
         setLogin.sendKeys(prop.getProperty("LOGIN"));
@@ -54,7 +54,7 @@ public class MainPFPage {
         setPasswordAgain.sendKeys(prop.getProperty("PASSWORD"));
         register.click();
         TimeUnit.SECONDS.sleep(7);
-        MailSteps.confirmLinkOnYandexMail("TrashMail", driver);
+        MailSteps.confirmLinkOnYandexMail("TrashMail");
         confirmButton.click();
         TimeUnit.SECONDS.sleep(7);
     }
