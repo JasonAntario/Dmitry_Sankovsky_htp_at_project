@@ -15,7 +15,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MyDriver {
+
     private static final Logger LOGGER = LogManager.getLogger(MyDriver.class);
+
     public static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
     private static WebElement element;
 
@@ -24,8 +26,9 @@ public class MyDriver {
     }
 
     public static WebDriver getWebDriver() {
-        // if (webDriver.get() == null)
-        //      webDriver.set(DriverManager.getDriver(config));
+        if (webDriver.get() == null){
+            webDriver.set(DriverManager.getDriver(Config.CHROME));
+        }
         return webDriver.get();
     }
 
