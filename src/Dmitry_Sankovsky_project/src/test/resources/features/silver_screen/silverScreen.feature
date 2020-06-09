@@ -1,11 +1,11 @@
 Feature: Cinema
-  @run
+
   Scenario: Search movie
     Given I open an app
     When I search for "тарантино" word
     Then I see the list of movie items
     And each item name or description contains "тарантино"
-  @run
+
   Scenario: Login app
     Given I open an app
     When I login with "megaantario@mail.ru" and "Sneha7991"
@@ -21,7 +21,7 @@ Feature: Cinema
       | field      | message                                |
       | "login"    | "Необходимо заполнить поле \"E-mail\"" |
       | "password" | "Необходимо заполнить поле \"Пароль\"" |
-  @run
+
   Scenario: Login app no such user
     Given I open an app
     When I login with "login@mail.ru" and "password"

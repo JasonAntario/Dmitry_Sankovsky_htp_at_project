@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GuiSteps {
-    private String messageBox = "//*[contains(text(),\"%s\")]";
+    private String messageBox = "//*[contains(text(),'%s')]";
     private String movieTitle = "//*[@class= \"sc-cFlMtL kclRKI\"]/div/div/a";
     private String movieDescription = "//*[@class=\"sc-jiIkmg oParU\"]/span";
     private String discoveredMovieNumb = "//*[@class= \"sc-cFlMtL kclRKI\"][%s]/div/div/a";

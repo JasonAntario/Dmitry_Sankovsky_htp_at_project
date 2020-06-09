@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginBlankFielsTest {
     GuiSteps guiSteps;
+
     String testLogin = "test@mail.ru";
     String testPassword = "test";
 
