@@ -47,7 +47,7 @@ public class MyDriver {
     }
 
     public static void followTheLinkSetWindowMode(String url, ScreenMode screenMode) {
-        DriverSettings.setScreenMode(screenMode, webDriver.get());
+        DriverSettings.setScreenMode(screenMode);
         webDriver.get().get(url);
     }
 

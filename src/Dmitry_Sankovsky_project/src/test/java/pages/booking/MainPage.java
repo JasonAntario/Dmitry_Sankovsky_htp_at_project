@@ -36,9 +36,9 @@ public class MainPage {
         MyDriver.findElementClick("//*[contains(@type, \"submit\")]");
     }
 
-    public static void bookingLogIn(WebDriver driver, Properties properties) throws InterruptedException {
+    public static void bookingLogIn(Properties properties) throws InterruptedException {
         LOGGER.debug("Log in on booking.com");
-        driver.get("https://www.booking.com/");
+        MyDriver.goToSite("https://www.booking.com/");
         MyDriver.findElementClick("//*[@id=\"current_account\"]");
         TimeUnit.SECONDS.sleep(3);
         MyDriver.findElementSendKeys("//*[@id=\"username\"]", properties.getProperty("NEW_MAIL"));
@@ -50,9 +50,9 @@ public class MainPage {
         MyDriver.findElementClick("//*[@type=\"submit\"]");
     }
 
-    public static void bookingRegistration(Properties properties, String BOOKING_PATH) throws IOException, InterruptedException {
+    public static void bookingRegistration(String BOOKING_PATH) throws IOException, InterruptedException {
         LOGGER.debug("Booking.com registration");
-        properties = MyDriver.getProperties(BOOKING_PATH);
+        Properties properties = MyDriver.getProperties(BOOKING_PATH);
         MyDriver.findElementClick("//*[@id=\"current_account_create\"]");
         TimeUnit.SECONDS.sleep(1);
         MyDriver.findElementSendKeys("//*[@id=\"login_name_register\"]", properties.getProperty("NEW_MAIL"));

@@ -1,23 +1,24 @@
 package settings;
 
 import org.openqa.selenium.WebDriver;
+import web_driver.MyDriver;
 
 public class DriverSettings {
 
-    public static void setScreenMode(ScreenMode mode, WebDriver driver) {
+    public static void setScreenMode(ScreenMode mode) {
         switch (mode) {
             case FULL_SCREEN:
-                setWindowMode(driver);
+                setWindowMode();
             case MAXIMIZE:
-                setMaximizeMode(driver);
+                setMaximizeMode();
         }
     }
 
-    private static void setMaximizeMode(WebDriver driver) {
-        driver.manage().window().maximize();
+    private static void setMaximizeMode() {
+        MyDriver.webDriver.get().manage().window().maximize();
     }
 
-    private static void setWindowMode(WebDriver driver) {
-        driver.manage().window().fullscreen();
+    private static void setWindowMode() {
+        MyDriver.webDriver.get().manage().window().fullscreen();
     }
 }

@@ -1,4 +1,4 @@
-package tests.booking.Paris;
+package tests.booking.cucumber;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -8,10 +8,8 @@ import cucumber.api.java.en.Then;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.junit.Test;
 import pages.booking.MainPage;
 import settings.Config;
-import settings.ScreenMode;
 import web_driver.MyDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -35,7 +33,7 @@ public class BookingParisHouseTest {
 
     @Given("I go to booking.com")
     public void iGoToBookingCom() {
-        MyDriver.followTheLinkSetWindowMode("https://www.booking.com/", ScreenMode.MAXIMIZE);
+        MyDriver.goToSite("https://www.booking.com/");
     }
 
     @Then("I enter data to search")
@@ -60,25 +58,6 @@ public class BookingParisHouseTest {
 
     @And("I compare hotel's price and price in filters")
     public void iCompareHotelSPriceAndPriceInFilters() {
-        System.out.println("Price: " + maxPrice + "+; Min one Night Price: " + firstOneDayPrice);
-        Assert.assertTrue(firstOneDayPrice >= Integer.parseInt(maxPrice));
-    }
-
-
-    @Test
-    public void booking1Test() throws InterruptedException {
-        MyDriver.followTheLinkSetWindowMode("https://www.booking.com/", ScreenMode.MAXIMIZE);
-        MainPage.setCityPersonRoomDates("Paris", daysAmount, daysShift, adultNeed, 0, roomNeed);
-        TimeUnit.SECONDS.sleep(4);
-
-        MyDriver.findElementClick("//*[contains(@class, \"sort_price\")]/a");
-        MyDriver.findElementClick("//*[@id=\"filter_price\"]//a[5]");
-        TimeUnit.SECONDS.sleep(2);
-
-        String maxPrice = MyDriver.findElementGetText("//*[@id=\"filter_price\"]//a[5]").replaceAll("\\D+", "");
-        String firstPrice = MyDriver.findElementGetText("//*[contains(@class, \"bui-price-display\")]/div[2]/div").replaceAll("\\D+", "");
-        int firstOneDayPrice = Integer.parseInt(firstPrice) / daysAmount;
-
         System.out.println("Price: " + maxPrice + "+; Min one Night Price: " + firstOneDayPrice);
         Assert.assertTrue(firstOneDayPrice >= Integer.parseInt(maxPrice));
     }

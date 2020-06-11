@@ -1,4 +1,4 @@
-package tests.booking.Oslo;
+package tests.booking.cucumber;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -6,10 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,13 +29,8 @@ public class BookingOsloHouseTest {
     static WebDriver driver;
     private static final Logger LOGGER = LogManager.getLogger(BookingOsloHouseTest.class);
 
-    @BeforeClass
-    public static void preCondition() {
-        MyDriver.initDriver(Config.CHROME);
-    }
-
     @Before
-    public static void pre_condition() {
+    public static void preCondition() {
         MyDriver.initDriver(Config.CHROME);
         LOGGER.info("Start test");
     }
@@ -81,36 +73,9 @@ public class BookingOsloHouseTest {
         Assert.assertEquals("color: red;", textColor);
     }
 
-
-    @Test
-    public void booking3Test() throws InterruptedException {
-        MyDriver.followTheLinkSetWindowMode( "https://www.booking.com/", ScreenMode.MAXIMIZE);
-        MainPage.setCityPersonRoomDates( "Oslo", daysAmount, daysShift, adultNeed, childNeed, roomNeed);
-        TimeUnit.SECONDS.sleep(4);
-
-        MyDriver.findElementClick( "//*[@data-id=\"class-3\"]");
-        MyDriver.findElementClick( "//*[@data-id=\"class-4\"]");
-        TimeUnit.SECONDS.sleep(4);
-        element = driver.findElement(By.xpath("//*[@id=\"hotellist_inner\"]/div[11]"));
-        TimeUnit.SECONDS.sleep(2);
-
-        Actions actions = new Actions(driver);
-        element = HotelsPage.executorSetBackgroundTitleColor(element, driver, actions);
-
-        String textColor = element.getAttribute("style");
-        if (textColor.equals("color: red;"))
-            System.out.println("Red is Red");
-        Assert.assertEquals("color: red;", textColor);
-    }
-
     @After
     public static void post_condition() {
         MyDriver.destroyDriver();
         LOGGER.info("Finish test");
-    }
-
-    @AfterClass
-    public static void postCondition() {
-        MyDriver.destroyDriver();
     }
 }

@@ -9,14 +9,12 @@ public class BaseSteps {
     //MyDriver driver;
     @Before
     public void preCondition() {
-        //MyDriver.initDriver(Config.CHROME);
         MyDriver.initDriver(Config.CHROME);
         MyDriver.getWebDriver().manage().window().maximize();
     }
 
     @After
     public void postCondition(){
-       // MyDriver.destroyDriver();
         MyDriver.getWebDriver().quit();
         MyDriver.webDriver.remove();
     }

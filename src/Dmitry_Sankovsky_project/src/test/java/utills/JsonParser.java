@@ -12,13 +12,13 @@ import java.nio.file.Paths;
 
 public class JsonParser {
 
-    private final static String JSON = "src\\Dmitry_Sankovsky_project\\src\\test\\java\\resources\\recipe.json";
-    private File file = new File(JSON);
+    //private final static String JSON = "src\\Dmitry_Sankovsky_project\\src\\test\\java\\resources\\recipe.json";
+   // private File file = new File(JSON);
 
-    public void parseJSON(FileReader fileReader) throws IOException {
-        String input = new String(Files.readAllBytes(Paths.get(JSON)));
-        JSONObject obj = new JSONObject(input);
-        System.out.println(obj.getString("preptime"));
+    public void parseJSON(FileReader fileReader) {
+     //   String input = new String(Files.readAllBytes(Paths.get(JSON)));
+      //  JSONObject obj = new JSONObject(input);
+      //  System.out.println(obj.getString("preptime"));
     }
 
     public void parseGson() {
