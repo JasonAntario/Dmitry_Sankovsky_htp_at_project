@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import utills.RequiredValues;
+import utills.GivenData;
 import utills.Search;
 
 import java.io.FileNotFoundException;
@@ -18,18 +18,29 @@ public class GetDataSteps {
 
     public static Search getSearchDataFromFile(Gson gson, int condition, Properties paths) throws IOException {
         LOGGER.debug("Parsing predicate to .json");
-        Search[] searches = gson.fromJson(new JsonReader(new FileReader(paths.getProperty("JSON"))), Search[].class);
+        Search[] searches = gson.fromJson(new JsonReader(new FileReader(paths.getProperty("SEARCH_PREDICATE"))), Search[].class);
         return searches[condition];
     }
 
-    public RequiredValues parseResponseToClass(Gson gson, Search search) throws IOException, URISyntaxException {
+    public GivenData parseResponseToClass(Gson gson, Search search) throws IOException, URISyntaxException {
         LOGGER.debug("Parsing response to class object");
-        return gson.fromJson(HttpRequestSteps.setHttpResponse(gson, search), RequiredValues.class);
+        return gson.fromJson(HttpRequestSteps.setHttpResponse(gson, search), GivenData.class);
     }
 
-    public RequiredValues getTestCondition(Gson gson, Properties paths, String condition) throws FileNotFoundException {
+    public GivenData getTestCondition(Gson gson, Properties paths, String condition) throws FileNotFoundException {
         LOGGER.debug("Parsing .json with validation data to class");
-        return gson.fromJson(new JsonReader(new FileReader(paths.getProperty(condition))), RequiredValues.class);
+        return gson.fromJson(new JsonReader(new FileReader(paths.getProperty(condition))), GivenData.class);
     }
 
+    public boolean checkResult(GivenData result, GivenData condition) {
+        if (result.data.size() != condition.data.size()) {
+            return false;
+        } else {
+            for (int i = 0; i < condition.data.size(); i++) {
+                if (condition.data.get(i).username.hashCode() != result.data.get(i).username.hashCode())
+                    return false;
+            }
+            return true;
+        }
+    }
 }

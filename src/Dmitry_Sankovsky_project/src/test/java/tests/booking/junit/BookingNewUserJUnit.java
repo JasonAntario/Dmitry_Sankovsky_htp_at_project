@@ -6,52 +6,46 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import pages.booking.MainPage;
+import pages.booking.BookingMainPage;
+import pages.yandex.YandexMailPage;
 import settings.Config;
-import steps.MailSteps;
-import steps.trashmail.TrashMailNewUser;
+import steps.trashmail.TrashMailSteps;
 import tests.booking.cucumber.BookingNewUserTest;
 import utills.PropertyPath;
 import web_driver.MyDriver;
 
 import java.io.IOException;
-import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class BookingNewUserJUnit {
 
     private static final Logger LOGGER = LogManager.getLogger(BookingNewUserTest.class);
+    private BookingMainPage bookingMainPage;
+    private final static String BOOKING_SITE = "https://www.booking.com/";
+    private static YandexMailPage yandexMailPage;
+
 
     @Before
     public void preCondition() throws IOException, InterruptedException {
         MyDriver.initDriver(Config.CHROME);
-        TrashMailNewUser.trashMailGetNewMail();
-        MyDriver.goToSite("https://www.booking.com/");
+        TrashMailSteps.trashMailGetNewMail();
+        bookingMainPage = new BookingMainPage(MyDriver.getWebDriver());
+        yandexMailPage = new YandexMailPage(MyDriver.getWebDriver());
     }
 
     @Test
     public void createNewUserTest() throws InterruptedException, IOException {
-        MainPage.bookingRegistration(PropertyPath.BOOKING_PATH);
+        MyDriver.goToSite(BOOKING_SITE);
+        bookingMainPage.bookingRegistration(PropertyPath.BOOKING_PATH);
         TimeUnit.SECONDS.sleep(3);
-        MailSteps.confirmLinkOnYandexMail("booking.com");
-        String currentHandle = MyDriver.getWebDriver().getWindowHandle();
-        MyDriver.findElementClick("//*[contains(text(), \"Подтверждаю\")]");
-        Set<String> handles = MyDriver.getWebDriver().getWindowHandles();
-        for (String actual : handles) {
-            if (actual.equalsIgnoreCase(currentHandle)) {
-                MyDriver.getWebDriver().switchTo().window(currentHandle);
-            }
-        }
+        yandexMailPage.confirmLinkOnYandexMail("booking.com");
+        yandexMailPage.clickConfirmButtonBooking();
+
         TimeUnit.SECONDS.sleep(8);
-        MyDriver.getWebDriver().get("https://www.booking.com/");
+        MyDriver.getWebDriver().get(BOOKING_SITE);
         TimeUnit.SECONDS.sleep(2);
-        MyDriver.findElementClick("//*[@id=\"profile-menu-trigger--content\"]");
-        MyDriver.findElementClick("//*[contains(@class, \"mydashboard\")]");
-        Assert.assertEquals(MyDriver.getWebDriver().findElements(By.xpath("//*[@class=\"email-confirm-banner\"]")).size(), 0);
+        bookingMainPage.openMyProfile();
+        Assert.assertTrue(bookingMainPage.checkRegistrationBanner());
     }
 
     @After

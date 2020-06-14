@@ -1,17 +1,25 @@
 package pages.trashmail;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import pages.yandex.YandexMailPage;
 import utills.PropertyPath;
-import steps.MailSteps;
 import web_driver.MyDriver;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-public class MainPFPage {
+public class TrashmailMainPage {
+
+    public TrashmailMainPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+    }
 
     @FindBy(xpath = "//*[@id=\"fe-mob-fwd-nb\"]")
     private static WebElement forwards;
@@ -24,14 +32,6 @@ public class MainPFPage {
     @FindBy(xpath = "//*[@id=\"fe-mob-submit\"]")
     private static WebElement create;
 
-    public static void generateMail(WebDriver driver) {
-        forwards.click();
-        setForwards.click();
-        life.click();
-        setLife.click();
-        create.click();
-    }
-
     @FindBy(xpath = "//*[contains(@href, \"mob-register\")]")
     private static WebElement newUser;
     @FindBy(xpath = "//*[@id=\"tab-mob-register\"]/form/div[1]/input")
@@ -42,10 +42,28 @@ public class MainPFPage {
     private static WebElement setPasswordAgain;
     @FindBy(xpath = "//*[@id=\"tab-mob-register\"]/form/div[6]/button")
     private static WebElement register;
-    @FindBy(xpath = "//*[contains(@href, \"trashmail\")]")
-    private static WebElement confirmButton;
+    @FindBy(xpath = "//*[@id=\"fe-mob-name\"]")
+    private static WebElement generatedMailField;
+    @FindBy(xpath = "//*[contains(text(), \"address is not registered\")]")
+    private static List<WebElement> notRegisteredBanner;
 
-    public static void trashmailRegistration(WebDriver driver) throws InterruptedException, IOException {
+
+    private static YandexMailPage yandexMailPage;
+    private static final Logger LOGGER = LogManager.getLogger(TrashmailMainPage.class);
+
+    static {
+        yandexMailPage = new YandexMailPage(MyDriver.getWebDriver());
+    }
+
+    public void generateMail() {
+        forwards.click();
+        setForwards.click();
+        life.click();
+        setLife.click();
+        create.click();
+    }
+
+    public void trashmailRegistration() throws InterruptedException, IOException {
         Properties prop = MyDriver.getProperties(PropertyPath.TRASHMAIL_PATH);
         newUser.click();
         TimeUnit.SECONDS.sleep(1);
@@ -54,8 +72,15 @@ public class MainPFPage {
         setPasswordAgain.sendKeys(prop.getProperty("PASSWORD"));
         register.click();
         TimeUnit.SECONDS.sleep(7);
-        MailSteps.confirmLinkOnYandexMail("TrashMail");
-        confirmButton.click();
-        TimeUnit.SECONDS.sleep(7);
+    }
+
+    public String getNewMail() {
+        String newGeneratedMail = MyDriver.elementGetAttribute(generatedMailField, "value");
+        newGeneratedMail = newGeneratedMail.concat("@trashmail.com");
+        return newGeneratedMail;
+    }
+
+    public boolean checkAccountRegistation() {
+        return notRegisteredBanner.size() > 0;
     }
 }

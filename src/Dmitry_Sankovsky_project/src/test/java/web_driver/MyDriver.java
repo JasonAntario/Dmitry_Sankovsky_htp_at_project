@@ -26,7 +26,7 @@ public class MyDriver {
     }
 
     public static WebDriver getWebDriver() {
-        if (webDriver.get() == null){
+        if (webDriver.get() == null) {
             webDriver.set(DriverManager.getDriver(Config.CHROME));
         }
         return webDriver.get();
@@ -56,6 +56,7 @@ public class MyDriver {
         element = webDriver.get().findElement(By.xpath(xPath));
         element.click();
     }
+
 
     public static void findElementClickRepeat(String xPath, int startAmount, int finishAmount) {
         LOGGER.debug("Click on element " + (finishAmount - startAmount) + " times");
@@ -87,6 +88,27 @@ public class MyDriver {
 
     public static String findElementGetText(String xPath) {
         return webDriver.get().findElement(By.xpath(xPath)).getText();
+    }
+
+    public static void elementClick(WebElement element) {
+        element.click();
+    }
+
+    public static void elementSendKeys(WebElement element, String key) {
+        element.sendKeys(key);
+    }
+
+    public static String elementGetAttribute(WebElement element, String attribute) {
+        return element.getAttribute(attribute);
+    }
+
+    public static void elementClickRepeat(WebElement element, int startAmount, int finishAmount) {
+        for (int i = 0; i < (finishAmount - startAmount); i++)
+            element.click();
+    }
+
+    public static String findElementGetCSSValue(String xPath, String value) {
+        return MyDriver.getWebDriver().findElement(By.xpath(xPath)).getCssValue(value);
     }
 
     public static void destroyDriver() {
