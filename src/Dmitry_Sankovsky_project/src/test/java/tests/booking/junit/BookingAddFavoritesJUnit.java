@@ -1,7 +1,5 @@
 package tests.booking.junit;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,10 +7,8 @@ import org.junit.Test;
 import pages.booking.BookingHotelsPage;
 import pages.booking.BookingMainPage;
 import settings.Config;
-import tests.booking.cucumber.BookingAddFavoritesTest;
 import utills.PropertyPath;
 import web_driver.MyDriver;
-
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -20,10 +16,9 @@ import java.util.concurrent.TimeUnit;
 public class BookingAddFavoritesJUnit {
     Properties properties;
     String firstHotel, secondHotel;
-    private static final Logger LOGGER = LogManager.getLogger(BookingAddFavoritesTest.class);
     private BookingHotelsPage bookingHotelsPage;
     private BookingMainPage bookingMainPage;
-
+    private final static String BOOKING_SITE = "https://www.booking.com/";
     @Before
     public void preCondition() throws IOException {
         MyDriver.initDriver(Config.CHROME);
@@ -34,6 +29,7 @@ public class BookingAddFavoritesJUnit {
 
     @Test
     public void addToFavoritesTest() throws InterruptedException {
+        MyDriver.goToSite(BOOKING_SITE);
         bookingMainPage.bookingLogIn(properties);
         TimeUnit.SECONDS.sleep(3);
         bookingMainPage.setCityPersonRoomDates("Madrid", 5, 21, 2, 0, 1);

@@ -1,7 +1,5 @@
 package tests.booking.junit;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,7 +8,6 @@ import pages.booking.BookingMainPage;
 import pages.yandex.YandexMailPage;
 import settings.Config;
 import steps.trashmail.TrashMailSteps;
-import tests.booking.cucumber.BookingNewUserTest;
 import utills.PropertyPath;
 import web_driver.MyDriver;
 
@@ -19,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BookingNewUserJUnit {
 
-    private static final Logger LOGGER = LogManager.getLogger(BookingNewUserTest.class);
     private BookingMainPage bookingMainPage;
     private final static String BOOKING_SITE = "https://www.booking.com/";
     private static YandexMailPage yandexMailPage;
@@ -42,7 +38,7 @@ public class BookingNewUserJUnit {
         yandexMailPage.clickConfirmButtonBooking();
 
         TimeUnit.SECONDS.sleep(8);
-        MyDriver.getWebDriver().get(BOOKING_SITE);
+        MyDriver.goToSite(BOOKING_SITE);
         TimeUnit.SECONDS.sleep(2);
         bookingMainPage.openMyProfile();
         Assert.assertTrue(bookingMainPage.checkRegistrationBanner());

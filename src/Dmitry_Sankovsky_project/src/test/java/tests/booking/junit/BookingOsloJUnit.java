@@ -1,7 +1,5 @@
 package tests.booking.junit;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import pages.booking.BookingHotelsPage;
 import pages.booking.BookingMainPage;
 import settings.Config;
-import tests.booking.cucumber.BookingOsloHouseTest;
 import web_driver.MyDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -25,7 +22,6 @@ public class BookingOsloJUnit {
     private BookingHotelsPage bookingHotelsPage;
     private BookingMainPage bookingMainPage;
     private final static String BOOKING_SITE = "https://www.booking.com/";
-    private static final Logger LOGGER = LogManager.getLogger(BookingOsloHouseTest.class);
 
     @Before
     public void preCondition() {
@@ -43,7 +39,6 @@ public class BookingOsloJUnit {
         bookingHotelsPage.get3And4StarsHotels();
         TimeUnit.SECONDS.sleep(4);
         element = bookingHotelsPage.executorSetBackgroundTitleColor();
-
         String textColor = element.getAttribute("style");
         if (textColor.equals("color: red;"))
             System.out.println("Red is Red");

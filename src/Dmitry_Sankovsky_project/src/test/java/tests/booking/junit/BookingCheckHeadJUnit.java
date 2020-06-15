@@ -1,7 +1,5 @@
 package tests.booking.junit;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,7 +7,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import pages.booking.BookingMainPage;
 import settings.Config;
-import tests.booking.cucumber.BookingCheckHeadTest;
 import utills.PropertyPath;
 import web_driver.MyDriver;
 
@@ -25,9 +22,8 @@ public class BookingCheckHeadJUnit {
     List<WebElement> list;
     List<WebElement> bigList;
 
-    private static final Logger LOGGER = LogManager.getLogger(BookingCheckHeadTest.class);
     private BookingMainPage bookingMainPage;
-
+    private final static String BOOKING_SITE = "https://www.booking.com/";
 
     @Before
     public void preCondition() throws IOException {
@@ -39,6 +35,7 @@ public class BookingCheckHeadJUnit {
 
     @Test
     public void addToFavoritesTest() throws InterruptedException {
+        MyDriver.goToSite(BOOKING_SITE);
         bookingMainPage.bookingLogIn(properties);
         TimeUnit.SECONDS.sleep(5);
         if (bookingMainPage.getHeaderElements().size() == ELEMENTS_AMOUNT) {

@@ -3,10 +3,11 @@ package tests.webservice;
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import steps.userWebService.GetDataSteps;
+import steps.user_web_service.GetDataSteps;
 import utills.PropertyPath;
 import utills.GivenData;
 import utills.Search;
@@ -39,10 +40,6 @@ public class WebServiceTest {
         condition = getDataSteps.getTestCondition(gson, paths, "ALL_USERS");
         Assert.assertTrue(getDataSteps.checkResult(result,condition));
 
-        // Search search = GetDataSteps.getSearchDataFromFile(gson, 0, paths);
-        // RequiredValues result = getDataSteps.parseResponseToClass(gson, search);
-        // RequiredValues condition = getDataSteps.getTestCondition(gson, paths, "ALL_USERS");
-        // Assert.assertEquals(condition, result);
     }
 
     @Test
@@ -52,10 +49,6 @@ public class WebServiceTest {
         condition = getDataSteps.getTestCondition(gson, paths, "PARTIAL_SHORT");
         Assert.assertTrue(getDataSteps.checkResult(result,condition));
 
-        /*Search search = GetDataSteps.getSearchDataFromFile(gson, 1, paths);
-        RequiredValues result = getDataSteps.parseResponseToClass(gson, search);
-        RequiredValues condition = getDataSteps.getTestCondition(gson, paths, "PARTIAL_SHORT");
-        Assert.assertEquals(condition.hashCode(), result.hashCode());*/
     }
 
     @Test
@@ -65,10 +58,6 @@ public class WebServiceTest {
         condition = getDataSteps.getTestCondition(gson, paths, "FULL_SHORT");
         Assert.assertTrue(getDataSteps.checkResult(result,condition));
 
-        /*Search search = GetDataSteps.getSearchDataFromFile(gson, 2, paths);
-        RequiredValues result = getDataSteps.parseResponseToClass(gson, search);
-        RequiredValues condition = getDataSteps.getTestCondition(gson, paths, "FULL_SHORT");
-        Assert.assertEquals(condition, result);*/
     }
 
     @Test
@@ -78,10 +67,7 @@ public class WebServiceTest {
         condition = getDataSteps.getTestCondition(gson, paths, "PARTIAL_LONG");
         Assert.assertTrue(getDataSteps.checkResult(result,condition));
 
-       /* Search search = GetDataSteps.getSearchDataFromFile(gson, 3, paths);
-        RequiredValues result = getDataSteps.parseResponseToClass(gson, search);
-        RequiredValues condition = getDataSteps.getTestCondition(gson, paths, "PARTIAL_LONG");
-        Assert.assertEquals(condition, result);*/
+
     }
 
     @Test
@@ -90,11 +76,11 @@ public class WebServiceTest {
         result = getDataSteps.parseResponseToClass(gson, search);
         condition = getDataSteps.getTestCondition(gson, paths, "FULL_LONG");
         Assert.assertTrue(getDataSteps.checkResult(result,condition));
+    }
 
-       /* Search search = GetDataSteps.getSearchDataFromFile(gson, 4, paths);
-        RequiredValues result = getDataSteps.parseResponseToClass(gson, search);
-        RequiredValues condition = getDataSteps.getTestCondition(gson, paths, "FULL_LONG");
-        Assert.assertEquals(condition, result);*/
+    @After
+    public void postCondition(){
+        LOGGER.info("Finish test");
     }
 
 

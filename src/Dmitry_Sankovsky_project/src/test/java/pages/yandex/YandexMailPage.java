@@ -44,9 +44,9 @@ public class YandexMailPage {
         TimeUnit.SECONDS.sleep(2);
         MyDriver.elementSendKeys(passwordField, prop.getProperty("PASSWORD"));
         MyDriver.elementClick(submitButton);
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(6);
         MyDriver.findElementClick(String.format(ANY_EMAIL_XPATH, sender));
-        TimeUnit.SECONDS.sleep(2);
+        TimeUnit.SECONDS.sleep(3);
     }
 
     public void clickConfirmButtonBooking() {

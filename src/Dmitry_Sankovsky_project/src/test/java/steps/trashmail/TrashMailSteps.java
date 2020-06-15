@@ -33,8 +33,8 @@ public class TrashMailSteps {
             MyDriver.findElementSendKeys("//*[@id=\"fe-mob-forward\"]", prop.getProperty("EMAIL"));
         getNewMail();
         trashmailMainPage.generateMail();
-
         TimeUnit.SECONDS.sleep(2);
+
         if (trashmailMainPage.checkAccountRegistation()) {
             LOGGER.debug("Account not registered. Creating new trashmail.com account");
             firstTime = false;

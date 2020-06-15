@@ -93,7 +93,6 @@ public class BookingMainPage {
     private static final Logger LOGGER = LogManager.getLogger(BookingMainPage.class);
 
     private final static String DATE_XPATH = "//*[contains(@data-date, \"%s\")]";
-    private final static String BOOKING_SITE = "https://www.booking.com/";
 
     public BookingMainPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -119,7 +118,7 @@ public class BookingMainPage {
 
     public void bookingLogIn(Properties properties) throws InterruptedException {
         LOGGER.debug("Log in on booking.com");
-        MyDriver.goToSite(BOOKING_SITE);
+        //MyDriver.goToSite(BOOKING_SITE);
         MyDriver.elementClick(myAccount);
         TimeUnit.SECONDS.sleep(3);
         MyDriver.elementSendKeys(login, properties.getProperty("NEW_MAIL"));
