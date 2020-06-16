@@ -49,38 +49,52 @@ public class TrashmailMainPage {
 
 
     private static YandexMailPage yandexMailPage;
-    private static final Logger LOGGER = LogManager.getLogger(TrashmailMainPage.class);
+    private static final Logger log = LogManager.getLogger(TrashmailMainPage.class);
 
     static {
         yandexMailPage = new YandexMailPage(MyDriver.getWebDriver());
     }
 
     public void generateMail() {
+        log.debug("Set new trashmail parameters ");
         forwards.click();
+        log.debug("Click on forwards box " + setForwards.toString());
         setForwards.click();
+        log.debug("Click on 1 forward " + setForwards.toString());
         life.click();
+        log.debug("Click on life box " + life.toString());
         setLife.click();
+        log.debug("Click on 1 day life time " + setLife.toString());
         create.click();
+        log.debug("Click on create button " + create.toString());
     }
 
     public void trashmailRegistration() throws InterruptedException, IOException {
+        log.debug("Click on life box " + life.toString());
         Properties prop = MyDriver.getProperties(PropertyPath.TRASHMAIL_PATH);
         newUser.click();
+        log.debug("Click on new user tab " + newUser.toString());
         TimeUnit.SECONDS.sleep(1);
         setLogin.sendKeys(prop.getProperty("LOGIN"));
+        log.debug("Print login in text box " + setLogin.toString());
         setPassword.sendKeys(prop.getProperty("PASSWORD"));
+        log.debug("Print password in text box " + setPassword.toString());
         setPasswordAgain.sendKeys(prop.getProperty("PASSWORD"));
+        log.debug("Print password againt in text box " + setPasswordAgain.toString());
         register.click();
+        log.debug("Click register button " + register.toString());
         TimeUnit.SECONDS.sleep(7);
     }
 
     public String getNewMail() {
+        log.debug("Getting new mail ");
         String newGeneratedMail = MyDriver.elementGetAttribute(generatedMailField, "value");
         newGeneratedMail = newGeneratedMail.concat("@trashmail.com");
         return newGeneratedMail;
     }
 
     public boolean checkAccountRegistation() {
+        log.debug("Cheking error banner " + notRegisteredBanner.toString());
         return notRegisteredBanner.size() > 0;
     }
 }

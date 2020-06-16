@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import tests.booking.junit.BookingCheckHeadJUnit;
 import web_driver.MyDriver;
 
 import java.util.List;
@@ -15,9 +14,9 @@ import java.util.regex.Pattern;
 
 public class SilverScreenPage {
     private String messageBox = "//*[contains(text(),'%s')]";
-    private String movieTitle = "//*[@class= \"sc-cFlMtL kclRKI\"]/div/div/a";
-    private String movieDescription = "//*[@class=\"sc-jiIkmg oParU\"]/span";
-    private String discoveredMovieNumb = "//*[@class= \"sc-cFlMtL kclRKI\"][%s]/div/div/a";
+    private String movieTitle = "//*[@class= \"sc-iKIEpe bLYdTB\"]/div/div/a";
+    private String movieDescription = "//*[@class=\"sc-whdbJ ghEKaE\"]";
+    private String discoveredMovieNumb = "//*[@class= \"sc-iKIEpe bLYdTB\"][%s]/div/div/a";
     private String searchField = "//*[contains(@placeholder, \"Поиск\")]";
     private String searchButton = "//*[@id= \"svg-icon-search\"]";
     private String loginBox = "//*[@class=\"sc-fyjhYU eVJmYW\"]";
@@ -84,16 +83,18 @@ public class SilverScreenPage {
     public void enterLogin(String login) {
         WebElement loginFieldElement = MyDriver.getWebDriver().findElement(By.xpath(loginField));
         loginFieldElement.sendKeys(Keys.chord(Keys.CONTROL, "a"), login);
-
+        log.debug("Print login in text box " + loginField);
     }
 
     public void enterPassword(String password) {
         WebElement pwdFieldElement = MyDriver.getWebDriver().findElement(By.xpath(passwordField));
         pwdFieldElement.sendKeys(Keys.chord(Keys.CONTROL, "a"), password);
+        log.debug("Print password in text box " + passwordField);
     }
 
     public void clickSubmit() {
         MyDriver.findElementClick(submit);
+        log.debug("Click on submit button " + submit);
     }
 
     public boolean isMessageBoxDisplayed(String arg) {
