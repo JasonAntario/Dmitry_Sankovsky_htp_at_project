@@ -1,5 +1,6 @@
 package tests.booking.junit;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,9 +18,10 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class BookingCheckHeadJUnit {
+
+    private static final Logger log = Logger.getLogger(BookingCheckHeadJUnit.class);
     final static int ELEMENTS_AMOUNT = 12;
     Properties properties;
-    List<WebElement> list;
     List<WebElement> bigList;
 
     private BookingMainPage bookingMainPage;
@@ -27,6 +29,7 @@ public class BookingCheckHeadJUnit {
 
     @Before
     public void preCondition() throws IOException {
+        log.info("Start test");
         MyDriver.initDriver(Config.CHROME);
         properties = MyDriver.getProperties(PropertyPath.BOOKING_PATH);
         bigList = new ArrayList<>();
@@ -35,10 +38,14 @@ public class BookingCheckHeadJUnit {
 
     @Test
     public void addToFavoritesTest() throws InterruptedException {
+        log.debug("Go to " + BOOKING_SITE);
         MyDriver.goToSite(BOOKING_SITE);
+        log.debug("Login to account");
         bookingMainPage.bookingLogIn(properties);
         TimeUnit.SECONDS.sleep(5);
+        log.debug("Finding all header elements");
         if (bookingMainPage.getHeaderElements().size() == ELEMENTS_AMOUNT) {
+            log.debug("Сhecking elements");
             Assert.assertTrue(isOnScreen(bookingMainPage.getHeaderElements()));
         }
     }
@@ -46,9 +53,13 @@ public class BookingCheckHeadJUnit {
     private boolean isOnScreen(List<WebElement> list) {
         for (WebElement x : list) {
             if (!x.isDisplayed()) {
+                log.debug("Element not displayed" + x.toString());
                 return false;
+            } else {
+                log.debug("Element displayed" + x.toString());
             }
         }
+        log.debug("All elements displayed");
         return true;
     }
 
@@ -56,5 +67,6 @@ public class BookingCheckHeadJUnit {
     public void postCondition() {
         MyDriver.destroyDriver();
         MyDriver.webDriver.remove();
+        log.info("End test");
     }
 }

@@ -12,6 +12,7 @@ public class BaseSteps {
     public static BookingMainPage bookingMainPage;
     public static BookingHotelsPage bookingHotelsPage;
     public static YandexMailPage yandexMailPage;
+
     @Before
     public void preCondition() {
         MyDriver.initDriver(Config.CHROME);

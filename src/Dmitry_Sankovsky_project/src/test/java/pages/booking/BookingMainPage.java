@@ -90,7 +90,7 @@ public class BookingMainPage {
     private static List<WebElement> registrationBanner;
 
 
-    private static final Logger LOGGER = LogManager.getLogger(BookingMainPage.class);
+    private static final Logger log = LogManager.getLogger(BookingMainPage.class);
 
     private final static String DATE_XPATH = "//*[contains(@data-date, \"%s\")]";
 
@@ -99,54 +99,66 @@ public class BookingMainPage {
     }
 
     public void setCityPersonRoomDates(String City, int daysAmount, int daysShift, int adultNeed, int childNeed, int roomNeed) {
-        LOGGER.debug("Adding search parameters: " + City + ", " + "on " + daysAmount + "days after " + daysShift
-                + " days for " + adultNeed + " adults, " + childNeed + " children in " + roomNeed + " rooms");
         cityTextBox.sendKeys(Keys.chord(Keys.CONTROL, "a"), City);
+        log.debug("Print " + City + " in text field " + cityTextBox.toString());
         MyDriver.elementClick(dataBox);
+        log.debug("Open dates box " + dataBox.toString());
         MyDriver.findElementClick(String.format(DATE_XPATH, setDays(daysShift)));
+        log.debug("Click on first date ");
         MyDriver.findElementClick(String.format(DATE_XPATH, setDays(daysAmount + daysShift)));  //set days
+        log.debug("Click on second date ");
         MyDriver.elementClick(personsRoomsBox);
+        log.debug("Open persons and rooms box " + personsRoomsBox.toString());
 
         int adultAmount = Integer.parseInt(MyDriver.elementGetAttribute(adultInput, "value"));
         MyDriver.elementClickRepeat(incAdult, adultAmount, adultNeed);
+        log.debug("Click on + button in field Adults " + (adultNeed - adultAmount) + " times " + dataBox.toString());
         int roomAmount = Integer.parseInt(MyDriver.elementGetAttribute(roomsInput, "value"));
         MyDriver.elementClickRepeat(incRoom, roomAmount, roomNeed);
+        log.debug("Click on + button in field Rooms " + (roomNeed - roomAmount) + " times " + dataBox.toString());
         int childAmount = Integer.parseInt(MyDriver.elementGetAttribute(childInput, "value"));
         MyDriver.elementClickRepeat(incChild, childAmount, childNeed);
+        log.debug("Click on + button in field Children " + (childNeed - childAmount) + " times " + dataBox.toString());
         MyDriver.elementClick(submitSearch);
     }
 
     public void bookingLogIn(Properties properties) throws InterruptedException {
-        LOGGER.debug("Log in on booking.com");
-        //MyDriver.goToSite(BOOKING_SITE);
+        log.debug("Log in on booking.com");
         MyDriver.elementClick(myAccount);
+        log.debug("Click on MyAccount " + myAccount.toString());
         TimeUnit.SECONDS.sleep(3);
         MyDriver.elementSendKeys(login, properties.getProperty("NEW_MAIL"));
-        LOGGER.debug("Printing email");
+        log.debug("Printing email in login field " + login.toString());
         MyDriver.elementClick(submit);
+        log.debug("Click on submit " + submit.toString());
         TimeUnit.MILLISECONDS.sleep(500);
         MyDriver.elementSendKeys(password, properties.getProperty("PASSWORD"));
-        LOGGER.debug("Printing password");
+        log.debug("Printing password in password field " + password.toString());
         MyDriver.elementClick(submit);
+        log.debug("Click on submit " + submit.toString());
     }
 
     public void bookingRegistration(String BOOKING_PATH) throws IOException, InterruptedException {
-        LOGGER.debug("Booking.com registration");
+        log.debug("Booking.com registration");
         Properties properties = MyDriver.getProperties(BOOKING_PATH);
         MyDriver.elementClick(createAccount);
+        log.debug("Click on Create account button " + submit.toString());
         TimeUnit.SECONDS.sleep(1);
         MyDriver.elementSendKeys(createLogin, properties.getProperty("NEW_MAIL"));
-        LOGGER.debug("Printing email");
+        log.debug("Printing email in email field " + createLogin.toString());
         MyDriver.elementClick(enterLogin);
+        log.debug("Click on enter button "+enterLogin.toString());
         TimeUnit.SECONDS.sleep(1);
         MyDriver.elementSendKeys(createPassword, properties.getProperty("PASSWORD"));
+        log.debug("Print password in textbox "+createPassword.toString());
         MyDriver.elementSendKeys(confirmPassword, properties.getProperty("PASSWORD"));
-        LOGGER.debug("Printing password twice");
+        log.debug("Print password in second textbox  "+confirmPassword.toString());
         MyDriver.elementClick(submit);
+        log.debug("Click on submit " + submit.toString());
     }
 
     public String setDays(int daysAmount) {
-        LOGGER.debug("Calculating vocation days");
+        log.debug("Calculating vocation days");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, daysAmount);
         Date newDate = calendar.getTime();
@@ -156,7 +168,9 @@ public class BookingMainPage {
 
     public void openMyProfile() {
         accountDropDownList.click();
+        log.debug("Click on account and open drop-down list " + accountDropDownList.toString());
         myDashboard.click();
+        log.debug("Click on MyDashboard " + myDashboard.toString());
     }
 
     public boolean checkRegistrationBanner() {

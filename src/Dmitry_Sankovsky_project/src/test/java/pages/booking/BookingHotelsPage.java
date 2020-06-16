@@ -71,44 +71,57 @@ public class BookingHotelsPage {
         PageFactory.initElements(driver, this);
     }
 
-    private static final Logger LOGGER = LogManager.getLogger(BookingHotelsPage.class);
+    private static final Logger log = LogManager.getLogger(BookingHotelsPage.class);
 
     public WebElement executorSetBackgroundTitleColor() {
         ((JavascriptExecutor) MyDriver.getWebDriver()).executeScript("arguments[0].scrollIntoView(true)", cityN10);
         Actions actions = new Actions(MyDriver.getWebDriver());
+        log.debug("Finding 10th hotel on page ");
         actions.moveToElement(cityN10address).build().perform();
-        LOGGER.debug("Finding 10th hotel on page");
+        log.debug("Move to city №10 address " + cityN10address.toString());
         ((JavascriptExecutor) MyDriver.getWebDriver()).executeScript("arguments[0].style.backgroundColor = 'green'", cityN10);
-        LOGGER.debug("Changing background color to green");
+        log.debug("Changing background color to green ");
         ((JavascriptExecutor) MyDriver.getWebDriver()).executeScript("arguments[0].style.color = 'red'", cityN10Name);
-        LOGGER.debug("Changing text color to red");
+        log.debug("Changing text color to red ");
         return cityN10Name;
     }
 
     public void sortMaxPrice() {
         MyDriver.elementClick(lowPriceSort);
+        log.debug("Click on sort button " + lowPriceSort.toString());
         MyDriver.elementClick(maxPrices);
+        log.debug("Click on max price filter button " + maxPrices.toString());
     }
 
     public void sortMinPrice() {
         MyDriver.elementClick(lowPriceSort);
+        log.debug("Click on sort button " + lowPriceSort.toString());
         MyDriver.elementClick(minPrices);
+        log.debug("Click on min price filter button " + minPrices.toString());
     }
 
     public void get3And4StarsHotels() {
         MyDriver.elementClick(threeStars);
+        log.debug("Click on 3 stars filter button " + threeStars.toString());
         MyDriver.elementClick(fourStars);
+        log.debug("Click on 4 stars filter button " + fourStars.toString());
     }
 
     public void setAdultRoomsByActon() {
         Actions actions = new Actions(MyDriver.getWebDriver());
         actions.moveToElement(adultInput).click().sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ARROW_DOWN).click().perform();
+        log.debug("Click on adults box " + adultInput.toString());
+        log.debug("Click on Arrow_Down 2 times ");
         actions.moveToElement(roomsInput).click().sendKeys(Keys.ARROW_DOWN).click().perform();
+        log.debug("Click on rooms box " + roomsInput.toString());
+        log.debug("Click on Arrow_Down 1 time ");
         actions.moveToElement(submit).click().perform();
+        log.debug("Click on submit button " + submit.toString());
     }
 
     public String clickHeartAndGetFirstHotelID() {
         firstHotelHeartButton.click();
+        log.debug("Click on heart button in first hotel " + firstHotelHeartButton.toString());
         return MyDriver.elementGetAttribute(firstHotelHeartButton, "data-hotel-id");
     }
 
@@ -118,11 +131,13 @@ public class BookingHotelsPage {
 
     public void toLastHotel() {
         lastHotelsPage.click();
+        log.debug("Click on last page with hotels " + lastHotelsPage.toString());
     }
 
     public String clickHeartAndGetLastHotelID() {
         WebElement lastHotelHeart = MyDriver.findElementClickReturn(String.format(LAST_PAGE_LAST_HOTEL_XPATH, anyHotel.size() - 1));
         lastHotelHeart.click();
+        log.debug("Click on heart button in last hotel " + lastHotelHeart.toString());
         return MyDriver.elementGetAttribute(lastHotelHeart, "data-hotel-id");
     }
 
@@ -132,10 +147,13 @@ public class BookingHotelsPage {
 
     public void openMyFavoritesList() throws InterruptedException {
         accountDropDownList.click();
+        log.debug("Click on my account " + accountDropDownList.toString());
         TimeUnit.MILLISECONDS.sleep(500);
         myDashboard.click();
+        log.debug("Click on MyDashboard " + myDashboard.toString());
         TimeUnit.MILLISECONDS.sleep(500);
         myFavoritesList.click();
+        log.debug("Click on MyFavoritesList " + myFavoritesList.toString());
     }
 
     public String getFirstHotelID() {
@@ -148,6 +166,7 @@ public class BookingHotelsPage {
 
     public void clearFavoritesList() {
         allFavoriteHotels.forEach(WebElement::click);
+        log.debug("Click on close button on every hotel in Favorites list");
     }
 
 }
