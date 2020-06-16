@@ -12,6 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 import web_driver.MyDriver;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BookingHotelsPage {
 
@@ -129,9 +130,11 @@ public class BookingHotelsPage {
         return MyDriver.findElementGetCSSValue(String.format(LAST_PAGE_LAST_HOTEL_HEART_CSS_XPATH, anyHotel.size() - 1), "fill");
     }
 
-    public void openMyFavoritesList() {
+    public void openMyFavoritesList() throws InterruptedException {
         accountDropDownList.click();
+        TimeUnit.MILLISECONDS.sleep(500);
         myDashboard.click();
+        TimeUnit.MILLISECONDS.sleep(500);
         myFavoritesList.click();
     }
 
